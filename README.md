@@ -1,6 +1,7 @@
 # BlockState
 호출된 곳에 위치한 블록의 BlockState 값을 추출하는 루트테이블을 제공합니다.   
 현재 JE 1.19.2 기준이며, 후술할 `generator.py` 파일을 이용해 다른 버전으로도 *아마* 변환이 가능합니다.   
+다운로드: https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_v1.0.0.zip   
 <br>
 
 ## 사용법
