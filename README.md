@@ -7,7 +7,7 @@
 <br>
 
 ## 다운로드
-...   
+v1.1.0: <https://github.com/Triton365/BlockState/releases/download/v1.1.0/BlockState_v1.1.0.zip>   
 <br><br>
 
 ## 사용법: 함수
