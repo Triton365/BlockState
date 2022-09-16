@@ -62,7 +62,8 @@ data get entity @s SelectedItem.tag
 - 다른 버전 혹은 다른 모드에서 등장하는 블록인 경우   
 <br><br><br>
 
-## generator.py
+## data.min.json & generator.py
+`data.min.json` 파일은 모든 블록 ID와 그 상태 정보를 담은 json 파일이며,   
 `generator.py` 파일은 그 옆에있는 `data.min.json` 파일의 데이터를 분석하여   
 `loot_tables` 폴더 안에 있는 수많은 루트테이블을 자동 생성해주는 스크립트입니다.   
 1.19 이외의 버전, 예를 들어 1.20 버전이 업데이트 되더라도   
