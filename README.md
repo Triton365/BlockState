@@ -21,7 +21,7 @@ execute at @s positioned ~ ~-0.1 ~ align xyz positioned ~0.5 ~ ~0.5 run function
 <br><br>
 
 ## 사용법: 루트테이블
-`blockstate:get` 루트테이블을 호출하여 해당 위치의 블록을 `BlockState`형태로 변환한 뒤 반환하는 아이템의 `tag` 내부에 저장합니다.
+`blockstate:get` 루트테이블을 호출하여 해당 위치의 블록을 `BlockState`형태로 변환한 뒤 반환하는 아이템의 `tag` 내부에 저장합니다.   
 아래는 간단한 테스트용 예제입니다. 발 밑 블록의 `BlockState`를 추출합니다.   
 ```mcfunction
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity @s weapon loot blockstate:get
