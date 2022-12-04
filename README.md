@@ -3,7 +3,7 @@
 <br>
 
 ## 다운로드
-1.19.2: <https://github.com/Triton365/BlockState/releases/download/v1.3.0/BlockState_1.19.2.zip>   
+- JE 1.19.2: <https://github.com/Triton365/BlockState/releases/download/v1.3.0/BlockState_1.19.2.zip>   
 <br><br>
 
 ## 사용법: 함수
