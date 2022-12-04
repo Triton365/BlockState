@@ -1,6 +1,5 @@
 # BlockState
-호출된 곳에 위치한 블록의 `BlockState` 값을 추출하는 루트테이블과, 호출된 곳에 위치한 블록을 폴링블록(`falling_block`)으로 변환하는 함수를 제공합니다. 물론 바닐라 루트테이블을 변조하지 않으며, 대신 이진 탐색으로 올바른 블록을 얻어냅니다.
-<br>
+호출된 곳에 위치한 블록의 `BlockState` 값을 추출하는 루트테이블과, 호출된 곳에 위치한 블록을 폴링블록(`falling_block`)으로 변환하는 함수를 제공합니다. 물론 바닐라 루트테이블을 변조하지 않으며, 대신 이진 탐색으로 올바른 블록을 얻어냅니다.   
 
 ## 다운로드
 - JE 1.19.2: <https://github.com/Triton365/BlockState/releases/download/v1.3.0/BlockState_1.19.2.zip>   
@@ -12,7 +11,7 @@
 ```mcfunction
 execute at @s positioned ~ ~-0.1 ~ align xyz positioned ~0.5 ~ ~0.5 run function blockstate:convert_to_falling_block
 ```
-이 함수를 적극 활용하고자 한다면 주의해야할 점이 몇가지 있습니다.    
+이 함수를 적극 활용하고자 한다면 주의해야할 점이 몇가지 있습니다.   
 - 호출한 위치에 있던 블록은 그대로 유지됩니다. 따라서 소환된 폴링블록이 원래 블록에 막힐 수 있습니다.   
 - 폴링블록의 소환 위치는 함수 호출 위치와 완전히 동일합니다. 함수 내부에서 자동으로 `align`되지 않는다는 의미입니다.   
 - 공기(`air`) 블록을 폴링블록으로 변환할 경우 모래가 됩니다. 의도한 건 아닙니다.   
@@ -28,15 +27,12 @@ execute at @s positioned ~ ~-0.1 ~ align xyz positioned ~0.5 ~ ~0.5 run function
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity @s weapon loot blockstate:get
 data get entity @s SelectedItem.tag
 ```
-
-### 반환
 반환된 아이템의 `tag` 내부는 보통 다음 구조로 이루어져 있습니다.   
-상태가 완전히 없는 블록의 경우 `Properties` 태그는 생략됩니다.   
 ```
 {Name:"minecraft:...",Properties:{...}}
 ```
 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어, `snowy` 상태가 `false`인 잔디블록은 `snowy` 상태를 생략할 수 있으나, 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.   
-아래와 같은 상황에서는 `tag`가 완전히 생략된 아이템이 나오기도 합니다.    
+상태가 완전히 없는 블록의 경우 `Properties` 태그가 생략되기도 하며, 아래와 같은 상황에서는 `tag`가 존재하지 않는 아이템이 나오기도 합니다.   
 - 주어진 위치의 청크가 언로드되어 있는 경우   
 - 최대 높이 초과 또는 최저 높이 미만 영역에 있는 경우   
 - 다른 버전 혹은 다른 모드에서 등장하는 블록인 경우   
