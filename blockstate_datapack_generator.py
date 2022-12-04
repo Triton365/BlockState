@@ -69,10 +69,10 @@ def state_to_key(state):
 os.makedirs(f'data/{NAMESPACE}/loot_tables',exist_ok=True)
 with open('pack.mcmeta','w') as f:
     f.write('''{
-   "pack": {
-      "pack_format": %s,
-      "description": "https://github.com/Triton365/BlockState"
-   }
+  "pack": {
+    "pack_format": %s,
+    "description": "https://github.com/Triton365/BlockState"
+  }
 }'''%PACK_FORMAT)
 if GENERATE_FUNCTIONS == True:
     os.makedirs(f'data/{NAMESPACE}/functions/private',exist_ok=True)
