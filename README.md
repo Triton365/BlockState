@@ -27,7 +27,7 @@ execute at @s positioned ~ ~-0.1 ~ align xyz positioned ~0.5 ~ ~0.5 run function
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity @s weapon loot blockstate:get
 data get entity @s SelectedItem.tag
 ```
-루트테이블이 반환하는 아이템의 `tag`에서 `BlockState` 데이터를 찾을 수 있습니다.
+루트테이블이 반환하는 아이템의 `tag` 내부에서 `BlockState` 데이터를 찾을 수 있으며 다음과 같은 구조로 되어있습니다.
 ```
 {Name:"minecraft:...",Properties:{...}}
 ```
