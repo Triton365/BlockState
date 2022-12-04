@@ -21,17 +21,17 @@ execute at @s positioned ~ ~-0.1 ~ align xyz positioned ~0.5 ~ ~0.5 run function
 <br><br>
 
 ## 사용법: 루트테이블
-`blockstate:get` 루트테이블을 호출하여 해당 위치의 블록을 `BlockState`형태로 변환한 뒤 반환하는 아이템의 `tag` 내부에 저장합니다.   
+`blockstate:get` 루트테이블을 호출하여 해당 위치에 있는 블록의 `BlockState` 데이터를 얻을 수 있습니다.
 아래는 간단한 테스트용 예제입니다. 발 밑 블록의 `BlockState`를 추출합니다.   
 ```mcfunction
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity @s weapon loot blockstate:get
 data get entity @s SelectedItem.tag
 ```
-반환된 아이템의 `tag` 내부는 보통 다음 구조로 이루어져 있습니다.   
+루트테이블이 반환하는 아이템의 `tag`에서 `BlockState` 데이터를 찾을 수 있습니다.
 ```
 {Name:"minecraft:...",Properties:{...}}
 ```
-개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어, `snowy` 상태가 `false`인 잔디블록은 `snowy` 상태를 생략할 수 있으나, 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.   
+추가로, 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어 `snowy` 상태가 `false`인 잔디블록은 `snowy` 상태를 생략할 수 있으나, 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.   
 상태가 완전히 없는 블록의 경우 `Properties` 태그가 생략되기도 하며, 아래와 같은 상황에서는 `tag`가 존재하지 않는 아이템이 나오기도 합니다.   
 - 주어진 위치의 청크가 언로드되어 있는 경우   
 - 최대 높이 초과 또는 최저 높이 미만 영역에 있는 경우   
