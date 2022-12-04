@@ -1,9 +1,5 @@
 # BlockState
-호출된 곳에 위치한 블록의 `BlockState` 값을 추출하는 루트테이블과   
-호출된 곳에 위치한 블록을 폴링블록(`falling_block`)으로 변환하는 함수를 제공합니다.   
-물론, 바닐라 루트테이블을 변조하지 않으며 이진 탐색으로만 올바른 값을 추출합니다.   
-<br>
-현재 JE 1.19.2 기준이며, 후술할 `generator.py` 파일을 이용해 다른 버전도 *아마* 지원할 겁니다.   
+호출된 곳에 위치한 블록의 `BlockState` 값을 추출하는 루트테이블과, 호출된 곳에 위치한 블록을 폴링블록(`falling_block`)으로 변환하는 함수를 제공합니다. 물론 바닐라 루트테이블을 변조하지 않으며, 대신 이진 탐색으로 올바른 블록을 얻어냅니다.
 <br>
 
 ## 다운로드
@@ -11,7 +7,7 @@ v1.1.0: <https://github.com/Triton365/BlockState/releases/download/v1.1.0/BlockS
 <br><br>
 
 ## 사용법: 함수
-`function` 명령어로 `blockstate:convert_to_falling_block` 함수를 호출합니다.   
+`function` 명령어로 `blockstate:summon_falling_block` 함수를 호출합니다.   
 그러면 함수를 호출한 곳에 있던 블록이 폴링블록(`falling_block`)으로 변환됩니다.   
 <br>
 아래는 간단한 테스트용 예제입니다. 발 밑 블록을 폴링블록으로 변환합니다.   
@@ -20,8 +16,8 @@ execute at @s positioned ~ ~-0.1 ~ align xyz positioned ~0.5 ~ ~0.5 run function
 ```
 
 ### 예외
-단순히 폴링블록으로 변환한다는 기능에 비해 생각해봐야 할 예외가 상당히 많습니다.   
-아래는 몇가지 예외 규칙들을 적어봤습니다.   
+단순히 폴링블록으로 변환한다는 기능에 비해 생각해봐야 할 예외가 상당히 많습니다.
+아래는 몇가지 예외 규칙들을 적어봤습니다.
 - 호출한 위치에 있던 블록은 그대로 유지됩니다. 따라서 소환된 폴링블록이 원래 블록에 막힐 수 있습니다.   
 - 폴링블록의 소환 위치는 함수 호출 위치와 완전히 동일합니다. 함수 내부에서 자동으로 `align`되지 않는다는 의미입니다.   
 - 공기(`air`) 블록을 폴링블록으로 변환할 경우 모래가 됩니다. 의도하진 않았습니다.   
@@ -35,7 +31,7 @@ execute at @s positioned ~ ~-0.1 ~ align xyz positioned ~0.5 ~ ~0.5 run function
 
 ## 사용법: 루트테이블
 `loot` 명령어로 `blockstate:get` 루트테이블을 호출합니다.   
-그러면 호출한 위치에 있던 블록이 `BlockState` 형태로 바뀌어,   
+그러면 호출한 위치에 있던 블록이 `BlockState` 형태로 바뀌어,
 루트테이블이 반환하는 아이템의 `tag` 내부로 들어갑니다.   
 <br>
 아래는 간단한 테스트용 예제입니다. 발 밑 블록의 `BlockState`를 추출합니다.   
@@ -62,16 +58,7 @@ data get entity @s SelectedItem.tag
 - 다른 버전 혹은 다른 모드에서 등장하는 블록인 경우   
 <br><br><br>
 
-## data.min.json & generator.py
-`data.min.json` 파일은 모든 블록 ID와 그 상태 정보를 담은 json 파일이며,   
-`generator.py` 파일은 그 옆에있는 `data.min.json` 파일의 데이터를 분석하여   
-`loot_tables` 폴더 안에 있는 수많은 루트테이블을 자동 생성해주는 스크립트입니다.   
-1.19 이외의 버전, 예를 들어 1.20 버전이 업데이트 되더라도   
-`data.min.json` 파일 하나만 바꿔서 돌리면 사용할 수 있기 위한 목적입니다.   
+## blockstate_datapack_generator.py
+`blockstate_datapack_generator.py` 파일은 버전을 주면 이 데이터팩을 자동으로 생성해주는 파이썬 스크립트입니다. 간단하게 해당 파일을 열어서 VERSION 변수의 값을 원하는 값으로 변경한 뒤 실행하면 됩니다. 그러면 이 스크립트는 그 버전에 해당하는 블록 리스트를 [Data Generator](https://minecraft.fandom.com/wiki/Tutorials/Running_the_data_generator)로 생성한 뒤, 그 리스트를 기반으로 이진 탐색 루트테이블을 자동 생성합니다.
 <br>
-최신버전의 `data.min.json` 파일은 아래 링크에서 구할 수 있습니다.   
-https://github.com/Arcensoth/mcdata/blob/master/processed/reports/blocks/simplified/data.min.json   
-History를 열면 다른 버전도 구할 수 있을 겁니다.   
-<br>
-다만, 버전 간 루트테이블 구조에 차이가 있다면 코드를 변경해야 하니   
-이 점은 다른 대책이 필요해 보입니다.   
+유지보수가 최대한 필요없는 시스템을 고안한 것이지만, 그럼에도 버전 간 루트테이블 구조에 차이가 발생한다면 어쩔 수 없이 코드를 수정해야만 합니다.
