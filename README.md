@@ -1,6 +1,6 @@
 # BlockState
 호출된 곳에 위치한 블록의 BlockState 데이터를 추출하는 루트테이블을 제공합니다. 바닐라 루트테이블을 변조하지 않으며, 오직 이진 탐색으로만 올바른 블록을 얻어냅니다.<br>
-![GIF 2023-03-12 오후 3-15-29](https://user-images.githubusercontent.com/93764565/224527804-182f2369-8739-428b-8d2c-56ed234983e0.gif)
+<img src="https://user-images.githubusercontent.com/93764565/224527804-182f2369-8739-428b-8d2c-56ed234983e0.gif"  width="682" height="184">
 <br><br>
 
 ## 다운로드
