@@ -14,7 +14,7 @@
 `blockstate:get` 루트테이블을 호출하여 해당 위치에 있는 블록의 BlockState 데이터를 얻을 수 있습니다.<br>
 아래는 간단한 테스트용 예제입니다. 발 밑 블록의 BlockState를 출력합니다.<br>
 ```mcfunction
-summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0]}
+summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 weapon loot blockstate:get
 tellraw @a {"nbt":"HandItems[0].tag","entity":"0-0-0-0-0"}
 kill 0-0-0-0-0
