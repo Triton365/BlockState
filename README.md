@@ -17,7 +17,8 @@
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity @s weapon loot blockstate:get
 data get entity @s SelectedItem.tag
 ```
-루트테이블이 반환하는 아이템의 `tag` 내부에서 BlockState 데이터를 찾을 수 있으며 다음과 같은 구조로 되어있습니다.
+※ 손에 뜬금없이 대구(cod)가 들어올텐데, 정상적으로 작동하고 있는겁니다.<br>
+루트테이블이 반환하는 대구의 `tag` 내부에서 BlockState 데이터를 찾을 수 있습니다. 일반적으로 다음과 같은 구조로 되어있습니다.
 ```
 {Name:"minecraft:...",Properties:{...}}
 ```
