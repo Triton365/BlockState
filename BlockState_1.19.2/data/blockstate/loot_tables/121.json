@@ -1,0 +1,1 @@
+{"type":"command","pools":[{"rolls":1,"entries":[{"type":"alternatives","children":[{"type":"item","name":"cod","conditions":[{"condition":"location_check","predicate":{"block":{"state":{"axis":"x"}}}}],"functions":[{"function":"set_nbt","tag":"{Properties:{axis:x}}"}]},{"type":"item","name":"cod","functions":[{"function":"set_nbt","tag":"{Properties:{axis:z}}"}]}]}]}]}
