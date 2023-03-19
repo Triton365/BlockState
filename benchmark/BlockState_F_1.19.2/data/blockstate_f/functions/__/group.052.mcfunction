@@ -1,0 +1,3 @@
+execute if block ~ ~ ~ chiseled_nether_bricks run data modify storage blockstate_f: BlockState set value {Name:"minecraft:chiseled_nether_bricks"}
+execute if block ~ ~ ~ chiseled_polished_blackstone run data modify storage blockstate_f: BlockState set value {Name:"minecraft:chiseled_polished_blackstone"}
+execute if block ~ ~ ~ chiseled_quartz_block run data modify storage blockstate_f: BlockState set value {Name:"minecraft:chiseled_quartz_block"}

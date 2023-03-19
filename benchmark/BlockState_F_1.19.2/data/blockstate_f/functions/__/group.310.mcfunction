@@ -1,0 +1,3 @@
+execute if block ~ ~ ~ waxed_weathered_copper run data modify storage blockstate_f: BlockState set value {Name:"minecraft:waxed_weathered_copper"}
+execute if block ~ ~ ~ waxed_weathered_cut_copper run data modify storage blockstate_f: BlockState set value {Name:"minecraft:waxed_weathered_cut_copper"}
+execute if block ~ ~ ~ waxed_weathered_cut_copper_slab run function blockstate_f:__/block.waxed_weathered_cut_copper_slab

@@ -1,0 +1,3 @@
+execute if block ~ ~ ~ potted_red_mushroom run data modify storage blockstate_f: BlockState set value {Name:"minecraft:potted_red_mushroom"}
+execute if block ~ ~ ~ potted_red_tulip run data modify storage blockstate_f: BlockState set value {Name:"minecraft:potted_red_tulip"}
+execute if block ~ ~ ~ potted_spruce_sapling run data modify storage blockstate_f: BlockState set value {Name:"minecraft:potted_spruce_sapling"}
