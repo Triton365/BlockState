@@ -1,0 +1,2 @@
+execute if data storage blockstate_benchmark: {run:loot_table} at @a[limit=1] run function blockstate_benchmark:tick_loot_table_1024
+execute if data storage blockstate_benchmark: {run:function} at @a[limit=1] run function blockstate_benchmark:tick_function_1024

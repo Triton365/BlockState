@@ -1,0 +1,2 @@
+execute if block ~ ~ ~ #blockstate_f:all[age=0] run data modify storage blockstate_f: BlockState.Properties.age set value "0"
+execute if block ~ ~ ~ #blockstate_f:all[age=1] run data modify storage blockstate_f: BlockState.Properties.age set value "1"

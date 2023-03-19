@@ -1,0 +1,13 @@
+data modify storage blockstate_f: BlockState set value {Name:"minecraft:rail"}
+execute if block ~ ~ ~ #blockstate_f:all[shape=ascending_east] run data modify storage blockstate_f: BlockState.Properties.shape set value "ascending_east"
+execute if block ~ ~ ~ #blockstate_f:all[shape=ascending_north] run data modify storage blockstate_f: BlockState.Properties.shape set value "ascending_north"
+execute if block ~ ~ ~ #blockstate_f:all[shape=ascending_south] run data modify storage blockstate_f: BlockState.Properties.shape set value "ascending_south"
+execute if block ~ ~ ~ #blockstate_f:all[shape=ascending_west] run data modify storage blockstate_f: BlockState.Properties.shape set value "ascending_west"
+execute if block ~ ~ ~ #blockstate_f:all[shape=east_west] run data modify storage blockstate_f: BlockState.Properties.shape set value "east_west"
+execute if block ~ ~ ~ #blockstate_f:all[shape=north_east] run data modify storage blockstate_f: BlockState.Properties.shape set value "north_east"
+execute if block ~ ~ ~ #blockstate_f:all[shape=north_south] run data modify storage blockstate_f: BlockState.Properties.shape set value "north_south"
+execute if block ~ ~ ~ #blockstate_f:all[shape=north_west] run data modify storage blockstate_f: BlockState.Properties.shape set value "north_west"
+execute if block ~ ~ ~ #blockstate_f:all[shape=south_east] run data modify storage blockstate_f: BlockState.Properties.shape set value "south_east"
+execute if block ~ ~ ~ #blockstate_f:all[shape=south_west] run data modify storage blockstate_f: BlockState.Properties.shape set value "south_west"
+execute if block ~ ~ ~ #blockstate_f:all[waterlogged=false] run data modify storage blockstate_f: BlockState.Properties.waterlogged set value "false"
+execute if block ~ ~ ~ #blockstate_f:all[waterlogged=true] run data modify storage blockstate_f: BlockState.Properties.waterlogged set value "true"
