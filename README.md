@@ -1,7 +1,8 @@
 <img src="https://user-images.githubusercontent.com/93764565/224527804-182f2369-8739-428b-8d2c-56ed234983e0.gif"  width="682" height="184"><br>
+<br>
+[한국어(Korean)](https://github.com/Triton365/BlockState/blob/main/README_KR.md)<br>
 
 # BlockState
-[한국어(Korean)](https://github.com/Triton365/BlockState/blob/main/README_KR.md)<br>
 Provides a loot-table to extract the BlockState data of the block located at the called location. It does not modify the vanilla loot, instead it mainly uses binary search to get the correct block.<br>
 <br><br>
 
