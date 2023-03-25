@@ -1,0 +1,3 @@
+execute if block ~ ~ ~ #blockstate_f:all[moisture=2] run data modify storage blockstate_f: BlockState.Properties.moisture set value "2"
+execute if block ~ ~ ~ #blockstate_f:all[moisture=3] run data modify storage blockstate_f: BlockState.Properties.moisture set value "3"
+execute if block ~ ~ ~ #blockstate_f:all[moisture=4] run data modify storage blockstate_f: BlockState.Properties.moisture set value "4"
