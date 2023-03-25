@@ -1,56 +1,57 @@
 <img src="https://user-images.githubusercontent.com/93764565/224527804-182f2369-8739-428b-8d2c-56ed234983e0.gif"  width="682" height="184"><br>
 
 # BlockState
-호출된 곳에 위치한 블록의 BlockState 데이터를 추출하는 루트테이블을 제공합니다. 바닐라 루트테이블을 변조하지 않으며, 오직 이진 탐색으로만 올바른 블록을 얻어냅니다.<br>
+[한국어(Korean)](https://github.com/Triton365/BlockState/blob/main/README_KR.md)<br>
+Provides a loot-table to extract the BlockState data of the block located at the called location. It does not modify the vanilla loot, instead it mainly uses binary search to get the correct block.<br>
 <br><br>
 
-## 다운로드
+## Download
 - JE 1.19.2: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.2.zip>
 - JE 1.19.3: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.3.zip>
 - JE 1.19.4: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.4.zip>
 <br><br><br>
 
-## 루트테이블 사용법
-`blockstate:get` 루트테이블을 호출하여 해당 위치에 있는 블록의 BlockState 데이터를 얻을 수 있습니다.<br>
-아래는 간단한 테스트용 예제입니다. 발 밑 블록의 BlockState를 출력합니다.<br>
+## How do I use it?
+You can call the `blockstate:get` loot-table to get the BlockState data of the block at that location.<br>
+Below is an example for a simple test. Prints the BlockState of the block underfoot.<br>
 ```mcfunction
 summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 weapon loot blockstate:get
 tellraw @a {"nbt":"HandItems[0].tag","entity":"0-0-0-0-0"}
 kill 0-0-0-0-0
 ```
-루트테이블이 반환하는 아이템의 `tag` 내부에서 BlockState 데이터를 찾을 수 있습니다.<br>
-일반적으로 다음과 같은 구조로 되어있습니다.<br>
+You can find the BlockState data inside the tag of the item returned by the loot-table.<br>
+It is usually structured like this:<br>
 ```
 {Name:"minecraft:...",Properties:{...}}
 ```
-추가로, 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어 `snowy` 상태가 `false`인 잔디블록은 `snowy` 상태를 생략할 수 있으나, 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.<br>
-상태가 완전히 없는 블록의 경우 `Properties` 태그가 생략되기도 하며, 아래와 같은 상황에서는 `tag`가 존재하지 않는 아이템이 나오기도 합니다.
-- 주어진 위치의 청크가 언로드되어 있는 경우
-- 최대 높이 초과 또는 최저 높이 미만 영역에 있는 경우
-- 다른 버전 혹은 다른 모드에서 등장하는 블록인 경우
+Additionally, individual states are not omitted even though they have default values. For example, a grass block whose `snowy` state is `false` can omit the `snowy` state, but the returned item must contain `snowy:"false"` in its `Properties`.<br>
+In the case of a block that has no state at all, the `Properties` tag is omitted. And in the following situations, an item without a tag may appear.
+- If the chunk of the called location is unloaded
+- If called in an area above the maximum height or below the minimum height
+- Blocks appearing in other versions or other mods
 <br><br><br>
 
-## 폴링 블록(falling_block)에 적용시 주의사항
-- 언로드된 청크, 건축 범위 밖, 상위 버전 블록, 모드 블록이 감지될 경우 루트테이블은 태그가 존재하지 않는 아이템을 반환합니다.
-- 폴링블록에 공기(`air`)를 넣으면 기본값인 모래(`sand`)로 강제 변경됩니다.
-- [MC-64634](https://bugs.mojang.com/browse/MC-64634): 블록 모델 파일이 없는 블록은 시각적으로 보이지 않습니다.
-- [MC-72849](https://bugs.mojang.com/browse/MC-72849): /data 명령어로 폴링블록의 BlockState를 변경해도 시각적으로 반영되지 않습니다. 폴링블록을 먼 곳(29999999, 0, 0)에 소환한 뒤 그곳에서 BlockState를 변경, 그 다음에 폴링블록을 원하는 위치로 tp하는 식으로 우회할 수 있습니다.
-- 피스톤이 움직일 때 발생하는 무빙 피스톤(`moving_piston`)은 해당 무빙 피스톤의 `blockState` 태그를 가져와서 변환해야 합니다.
+## Precautions when applied to the falling_block
+- Unloaded chunk, out of build range, higher version block, or mod block will make the loot-table return an item with no tag present.
+- Falling blocks cannot be `air`, it will forcibly changed to default sand.
+- [MC-64634](https://bugs.mojang.com/browse/MC-64634): Blocks without block model are invisible.
+- [MC-72849](https://bugs.mojang.com/browse/MC-72849): Changing the `BlockState` of a falling_block with the `/data` command does not reflect it visually. You can bypass it by summoning a falling_block to a distant location like (29999999, 0, 0), changing the `BlockState` there, and then tp-ing the falling block to the desired location.
+- A `moving_piston` block which can appear when the piston moves needs to be converted by getting the nbt `blockState` of that `moving_piston`.
 <br><br><br>
 
-## 블록 디스플레이(block_display)에 적용시 주의사항
-- 언로드된 청크, 건축 범위 밖, 상위 버전 블록, 모드 블록이 감지될 경우 루트테이블은 태그가 존재하지 않는 아이템을 반환합니다.
-- [MC-259990](https://bugs.mojang.com/browse/MC-259990): 블록 디스플레이에 머리, 현수막, 표지판, 종을 적용할 경우 시각적으로 보이지 않습니다.
-- 피스톤이 움직일 때 발생하는 무빙 피스톤(`moving_piston`)은 해당 무빙 피스톤의 `blockState` 태그를 가져와서 변환해야 합니다.
+## Precautions when applied to the block_display
+- Unloaded chunk, out of build range, higher version block, or mod block will make the loot-table return an item with no tag present.
+- [MC-259990](https://bugs.mojang.com/browse/MC-259990): block display entities are invisible when `block_state` is head, banner, sign or bell.
+- A `moving_piston` block which can appear when the piston moves needs to be converted by getting the nbt `blockState` of that `moving_piston`.
 <br><br><br>
 
 ## blockstate_datapack_generator.py
-`blockstate_datapack_generator.py` 파일은 버전을 주면 이 데이터팩을 자동으로 생성해주는 파이썬 스크립트입니다. 간단하게 해당 파일을 열어서 VERSION 변수의 값을 원하는 값으로 변경한 뒤 실행하면 됩니다. 그러면 이 스크립트는 그 버전에 해당하는 블록 리스트를 [Data Generator](https://minecraft.fandom.com/wiki/Tutorials/Running_the_data_generator)로 생성한 뒤, 그 리스트를 기반으로 이진 탐색 루트테이블을 자동 생성합니다.<br>
-유지보수가 최대한 필요없는 시스템을 고안한 것이지만, 그럼에도 버전 간 루트테이블 구조에 차이가 발생한다면 그때는 어쩔 수 없이 직접 코드를 수정해야 한다는 단점이 존재합니다.<br>
+The `blockstate_datapack_generator.py` is a python script that automatically creates this datapack when you give it a version. Simply open the file, change the value of the `VERSION` variable to the desired value, and run it. Then, this script creates a block list corresponding to that version with [Data Generator](https://minecraft.fandom.com/wiki/Tutorials/Running_the_data_generator), and then automatically creates a binary search loot-table based on that list.<br>
+It was created to eliminate maintenance work as much as possible, but even so, there's still a downside that the code needs to be modified whenever the loot-table structure changes due to an update.<br>
 <br><br>
 
 ## 성능 비교
-함수트리를 이용한 방식과 비교해본 결과 루트테이블이 더 빠르다는 결론이 나왔습니다.
+As a result of comparison with the method using the function tree, it was concluded that the loot-table method is faster.<br>
 <https://github.com/Triton365/BlockState/blob/main/benchmark/BENCHMARK.md><br>
 <br><br>
