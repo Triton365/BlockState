@@ -14,15 +14,15 @@ Provides a loot-table to extract the BlockState data of the block located at the
 
 ## How do I use it?
 You can call the `blockstate:get` loot-table to get the BlockState data of the block at that location.<br>
-Below is an example for a simple test. Prints the BlockState of the block underfoot.<br>
+Below is an example for a simple test that prints the BlockState of the block underfoot.<br>
 ```mcfunction
 summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 weapon loot blockstate:get
 tellraw @a {"nbt":"HandItems[0].tag","entity":"0-0-0-0-0"}
 kill 0-0-0-0-0
 ```
-You can find the BlockState data inside the tag of the item returned by the loot-table.<br>
-It is usually structured like this:<br>
+You can find the BlockState data in the item's `tag` returned by the loot-table.<br>
+Usually it will have the following structure:<br>
 ```
 {Name:"minecraft:...",Properties:{...}}
 ```
@@ -52,7 +52,7 @@ The `blockstate_datapack_generator.py` is a python script that automatically cre
 It was created to eliminate maintenance work as much as possible, but even so, there's still a downside that the code needs to be modified whenever the loot-table structure changes due to an update.<br>
 <br><br>
 
-## 성능 비교
+## Benchmark
 As a result of comparison with the method using the function tree, it was concluded that the loot-table method is faster.<br>
 <https://github.com/Triton365/BlockState/blob/main/benchmark/BENCHMARK.md><br>
 <br><br>
