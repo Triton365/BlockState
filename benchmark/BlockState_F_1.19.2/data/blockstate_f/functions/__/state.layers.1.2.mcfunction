@@ -1,2 +1,0 @@
-execute if block ~ ~ ~ #blockstate_f:all[layers=1] run data modify storage blockstate_f: BlockState.Properties.layers set value "1"
-execute if block ~ ~ ~ #blockstate_f:all[layers=2] run data modify storage blockstate_f: BlockState.Properties.layers set value "2"
