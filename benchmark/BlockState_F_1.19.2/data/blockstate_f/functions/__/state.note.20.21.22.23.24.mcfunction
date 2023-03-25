@@ -1,5 +1,0 @@
-execute if block ~ ~ ~ #blockstate_f:all[note=20] run data modify storage blockstate_f: BlockState.Properties.note set value "20"
-execute if block ~ ~ ~ #blockstate_f:all[note=21] run data modify storage blockstate_f: BlockState.Properties.note set value "21"
-execute if block ~ ~ ~ #blockstate_f:all[note=22] run data modify storage blockstate_f: BlockState.Properties.note set value "22"
-execute if block ~ ~ ~ #blockstate_f:all[note=23] run data modify storage blockstate_f: BlockState.Properties.note set value "23"
-execute if block ~ ~ ~ #blockstate_f:all[note=24] run data modify storage blockstate_f: BlockState.Properties.note set value "24"

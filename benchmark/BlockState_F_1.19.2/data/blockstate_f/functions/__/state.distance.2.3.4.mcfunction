@@ -1,3 +1,0 @@
-execute if block ~ ~ ~ #blockstate_f:all[distance=2] run data modify storage blockstate_f: BlockState.Properties.distance set value "2"
-execute if block ~ ~ ~ #blockstate_f:all[distance=3] run data modify storage blockstate_f: BlockState.Properties.distance set value "3"
-execute if block ~ ~ ~ #blockstate_f:all[distance=4] run data modify storage blockstate_f: BlockState.Properties.distance set value "4"
