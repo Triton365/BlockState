@@ -1,0 +1,2 @@
+data modify storage blockstate_f: BlockState set value {Name:"minecraft:cave_vines_plant",Properties:{berries:"false"}}
+execute if block ~ ~ ~ #blockstate_f:all[berries=true] run data modify storage blockstate_f: BlockState.Properties.berries set value "true"
