@@ -10,6 +10,7 @@ Provides a loot-table to extract the BlockState data of the block located at the
 - JE 1.19.2: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.2.zip>
 - JE 1.19.3: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.3.zip>
 - JE 1.19.4: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.4.zip>
+- JE 1.20  : <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.20.zip>
 <br><br><br>
 
 ## How do I use it?
