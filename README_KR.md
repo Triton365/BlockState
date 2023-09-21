@@ -10,7 +10,9 @@
 - JE 1.19.2: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.2.zip>
 - JE 1.19.3: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.3.zip>
 - JE 1.19.4: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.4.zip>
-- JE 1.20  : <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.20.zip>
+- JE 1.20&nbsp;&nbsp;: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.20.zip>
+- JE 1.20.1: ↑ (변경 없음)
+- JE 1.20.2: <https://github.com/Triton365/BlockState/releases/download/v1.0.1/BlockState_1.20.2.zip>
 <br><br><br>
 
 ## 루트테이블 사용법
