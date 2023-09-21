@@ -1,10 +1,31 @@
 import json, heapq, urllib.request, subprocess, os, zipfile
 
 
-VERSION = '1.19.2'
-PACK_FORMAT = 10
+VERSION = '1.20.2'
+PACK_FORMAT = 18
 NAMESPACE = 'blockstate'
 TEMP_DIRECTORY_NAME = 'BLOCKSTATE_TEMP_872be9e0a76f4da1'
+
+
+def version_compare(v1,c,v2):
+    v1 = list(map(int,v1.split('.')))
+    v2 = list(map(int,v2.split('.')))
+    length = max(len(v1),len(v2))
+    v1 += [0]*(length-len(v1))
+    v2 += [0]*(length-len(v2))
+    for x1,x2 in zip(v1,v2):
+        if x1 != x2:
+            if x1 > x2:
+                return c == '>' or c == '>='
+            return c == '<' or c == '<='
+    return c == '==' or c == '>=' or c == '<='
+
+
+STRINGFY_STATE_VALUES = False
+if version_compare(VERSION,'>=','1.20.2'):
+    STRINGFY_STATE_VALUES = True
+
+
 
 
 print('Connecting...')
@@ -169,8 +190,12 @@ class IntStateCheckEntry(Entry):
             self.type = 'alternatives' # alternatives 기반 2진 탐색
             mid = (len(values)+1)//2
             self.children = [IntStateCheckEntry(key,values[:mid]),IntStateCheckEntry(key,values[mid:])]
-            if len(values) == 2: self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":%d}}}}'%(key,values[mid-1]))
-            else:                self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":{"max":%d}}}}}'%(key,values[mid-1]))
+            if STRINGFY_STATE_VALUES:
+                if len(values) == 2: self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":"%d"}}}}'%(key,values[mid-1]))
+                else:                self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":{"max":"%d"}}}}}'%(key,values[mid-1]))
+            else:
+                if len(values) == 2: self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":%d}}}}'%(key,values[mid-1]))
+                else:                self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":{"max":%d}}}}}'%(key,values[mid-1]))
 
 # 엔트리, 그런데 문자열 상태를 선형 탐색하는 children 엔트리를 자동 생성하는
 class StrStateCheckEntry(Entry):
@@ -182,7 +207,8 @@ class StrStateCheckEntry(Entry):
             self.children.append(Entry())
             self.children[-1].type = 'item'
             if value in ('true','false'):
-                self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":%s}}}}'%(key,value)]
+                if STRINGFY_STATE_VALUES: self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(key,value)]
+                else:                     self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":%s}}}}'%(key,value)]
                 self.children[-1].functions  = ['{"function":"set_nbt","tag":"{Properties:{%s:\'%s\'}}"}'%(key,value)]
             else:
                 self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(key,value)]
