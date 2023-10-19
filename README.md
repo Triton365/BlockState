@@ -28,7 +28,7 @@ The returned item's `tag` itself is the blockstate data, usually structured like
 ```
 tag:{Name:"minecraft:...",Properties:{...}}
 ```
-Each states won't be omitted even though they have default values. For example, a grass block whose `snowy` state is `false` can omit the `snowy` state, but the returned item must contain `snowy:"false"` in its `Properties`.<br>
+Each states won't be omitted even though they have default values. For example, a grass block whose `snowy` state is `false` can omit the `snowy` state, but the returned item will always contain `snowy:"false"` in its `Properties`.<br>
 In the case of a block that has no state at all, the `Properties` tag is omitted. And in the following situations, an item without a tag may appear.
 - If the chunk of the called location is unloaded
 - If called in an area above the maximum height or below the minimum height
