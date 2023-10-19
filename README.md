@@ -16,7 +16,7 @@ This pack provides a giant loot-table that extracts the BlockState data of the b
 <br><br><br>
 
 ## Usage
-Call the `blockstate:get` loot-table (with `/loot` command) to get the BlockState data of the block at the given location.<br>
+Call the `blockstate:get` loot-table (with /loot command) **at** the block you want to extract. It will return an item with the BlockState data of that block.<br>
 Below code is an example that prints the BlockState of the block underfoot.<br>
 ```mcfunction
 summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
