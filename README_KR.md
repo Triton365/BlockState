@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/93764565/224527804-182f2369-8739-428b-8d2c-56ed234983e0.gif"  width="682" height="184"><br>
+<img src="https://user-images.githubusercontent.com/93764565/224527804-182f2369-8739-428b-8d2c-56ed234983e0.gif" width="682"><br>
 <br>
 [English(영어)](https://github.com/Triton365/BlockState)<br>
 
@@ -16,7 +16,7 @@
 <br><br><br>
 
 ## 루트테이블 사용법
-`blockstate:get` 루트테이블을 호출하여 해당 위치에 있는 블록의 BlockState 데이터를 얻을 수 있습니다.<br>
+`/loot` 명령어로 `blockstate:get` 루트테이블을 호출하여 주어진 위치에 있는 블록의 BlockState 데이터를 얻을 수 있습니다.<br>
 아래는 간단한 테스트용 예제입니다. 발 밑 블록의 BlockState를 출력합니다.<br>
 ```mcfunction
 summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
@@ -27,7 +27,7 @@ kill 0-0-0-0-0
 루트테이블이 반환하는 아이템의 `tag` 내부에서 BlockState 데이터를 찾을 수 있습니다.<br>
 일반적으로 다음과 같은 구조로 되어있습니다.<br>
 ```
-{Name:"minecraft:...",Properties:{...}}
+tag:{Name:"minecraft:...",Properties:{...}}
 ```
 추가로, 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어 `snowy` 상태가 `false`인 잔디블록은 `snowy` 상태를 생략할 수 있으나, 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.<br>
 상태가 완전히 없는 블록의 경우 `Properties` 태그가 생략되기도 하며, 아래와 같은 상황에서는 `tag`가 존재하지 않는 아이템이 나오기도 합니다.
