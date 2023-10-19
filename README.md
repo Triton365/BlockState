@@ -3,7 +3,7 @@
 [한국어(Korean)](https://github.com/Triton365/BlockState/blob/main/README_KR.md)<br>
 
 # BlockState
-This pack provides a giant loot-table that extracts the BlockState data of the block located at the called location. It **does not modify** the vanilla loot, instead it mainly uses binary search to get the correct block.<br>
+This pack provides a giant loot-table that extracts the BlockState data of the block at the called location. It **does not modify** the vanilla loot, instead it mainly uses binary search to get the correct block.<br>
 <br><br>
 
 ## Download
