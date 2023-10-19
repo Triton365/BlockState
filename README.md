@@ -16,7 +16,7 @@ This pack provides a giant loot-table that extracts the BlockState data of the b
 <br><br><br>
 
 ## Usage
-Call the `blockstate:get` loot-table (with `/loot` command) **at** the block you want to extract. It will return an item with the BlockState data of that block.<br>
+Call the `blockstate:get` loot-table (with `/loot` command) **at** the block you want to extract the BlockState from.<br>
 Below code is an example that prints the BlockState of the block underfoot.<br>
 ```mcfunction
 summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
@@ -24,7 +24,7 @@ execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 weapon loot
 tellraw @a {"nbt":"HandItems[0].tag","entity":"0-0-0-0-0"}
 kill 0-0-0-0-0
 ```
-The returned item's `tag` itself is the blockstate data, usually structured like this:<br>
+The returned item's `tag` itself is the BlockState data, usually structured like this:<br>
 ```
 tag:{Name:"minecraft:...",Properties:{...}}
 ```
