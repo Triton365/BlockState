@@ -1,4 +1,4 @@
-<img src="https://user-images.githubusercontent.com/93764565/224527804-182f2369-8739-428b-8d2c-56ed234983e0.gif" height="184"><br>
+<img src="https://user-images.githubusercontent.com/93764565/224527804-182f2369-8739-428b-8d2c-56ed234983e0.gif" width="682"><br>
 <br>
 [한국어(Korean)](https://github.com/Triton365/BlockState/blob/main/README_KR.md)<br>
 
