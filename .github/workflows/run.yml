@@ -1,0 +1,43 @@
+on:
+  workflow_dispatch:
+    inputs:
+      mc_version:
+        type: string
+        default: latest-release
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' 
+      - name: git config
+        run: |
+          git config --global user.name actions-user
+          git config --global user.email actions@github.com
+      - name: get python script
+        run: |
+          mkdir temp1
+          cd temp1
+          git init
+          git remote add origin https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY
+          git fetch origin
+          git reset --hard origin/main
+          mv .github/workflows/run.py ..
+      - name: run python script and push
+        run: |
+          mkdir temp2
+          cd temp2
+          git init
+          git remote add origin https://x-access-token:${{ github.token }}@github.com/$GITHUB_REPOSITORY
+          git fetch origin
+          git reset origin/datapack-preview
+          mv ../run.py .
+          python run.py ${{ inputs.mc_version }}
+          rm -f run.py
+          git add --all
+          git commit -m "${{ inputs.mc_version }}"
+          git push origin master:datapack-preview
