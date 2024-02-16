@@ -1,4 +1,4 @@
-import json, heapq, urllib.request, subprocess, os, zipfile
+import json, heapq, urllib.request, subprocess, os, zipfile, sys
 
 
 VERSION = '1.20.2'
