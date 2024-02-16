@@ -1,3 +1,0 @@
-data modify storage blockstate_f: BlockState set value {Name:"minecraft:lantern",Properties:{hanging:"false",waterlogged:"false"}}
-execute if block ~ ~ ~ #blockstate_f:all[hanging=true] run data modify storage blockstate_f: BlockState.Properties.hanging set value "true"
-execute if block ~ ~ ~ #blockstate_f:all[waterlogged=true] run data modify storage blockstate_f: BlockState.Properties.waterlogged set value "true"
