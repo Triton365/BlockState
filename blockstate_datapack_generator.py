@@ -6,6 +6,10 @@ PACK_FORMAT = 18
 NAMESPACE = 'blockstate'
 TEMP_DIRECTORY_NAME = 'BLOCKSTATE_TEMP_872be9e0a76f4da1'
 
+if len(sys.argv) >= 3:
+    VERSION = sys.argv[1]
+    PACK_FORMAT = int(sys.argv[2])
+
 
 def version_compare(v1,c,v2):
     v1 = list(map(int,v1.split('.')))
