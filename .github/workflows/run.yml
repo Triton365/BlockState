@@ -3,7 +3,7 @@ on:
     inputs:
       mc_version:
         type: string
-        default: latest-release
+        default: "1."
 
 jobs:
   test_job:
