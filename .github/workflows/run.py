@@ -1,6 +1,4 @@
-import sys
-
+import sys, zipfile
 VERSION = sys.argv[1]
-
-with open('test.txt','w') as f:
-    f.write(VERSION)
+with zipfile.ZipFile(f'BlockState_{VERSION}.zip') as myzip:
+    myzip.extractall()
