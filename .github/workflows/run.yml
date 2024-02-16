@@ -6,8 +6,6 @@ on:
         default: "1."
       pack_format:
         type: number
-      commit_message:
-        type: string
 
 jobs:
   test_job:
@@ -51,6 +49,7 @@ jobs:
           python run.py ${{ inputs.mc_version }}
           rm -f blockstate_datapack_generator.py
           rm -f run.py
+          rm -f BlockState_${{ inputs.mc_version }}.zip
           git add --all
-          git commit -m "${{ inputs.commit_message }}"
+          git commit -m "${{ inputs.mc_version }}"
           git push origin master:datapack-preview
