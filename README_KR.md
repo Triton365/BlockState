@@ -17,7 +17,7 @@
 - JE 1.20.4: ↑ (변경 없음)
 
 
-이 팩의 내부가 어떻게 생겼는지 [datapack-preview branch](https://github.com/Triton365/BlockState/tree/datapack-preview)에서 볼 수 있습니다.
+이 팩의 내부가 어떻게 생겼는지 [datapack-preview 브랜치](https://github.com/Triton365/BlockState/tree/datapack-preview)에서 볼 수 있습니다.
 <br><br><br>
 
 ## 루트테이블 사용법
