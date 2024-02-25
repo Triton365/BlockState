@@ -52,6 +52,7 @@ tag:{Name:"minecraft:...",Properties:{...}}
 ## 블록 디스플레이(block_display)에 적용시 주의사항
 - 언로드된 청크, 건축 범위 밖, 상위 버전 블록, 모드 블록이 감지될 경우 루트테이블은 태그가 존재하지 않는 아이템을 반환합니다.
 - [MC-259990](https://bugs.mojang.com/browse/MC-259990): 블록 디스플레이에 머리, 현수막, 표지판, 종을 적용할 경우 시각적으로 보이지 않습니다.
+- [MC-259954](https://bugs.mojang.com/browse/MC-259954): 몇몇 블록(침대/상자/전달체/엔더상자/셜커상자)은 아이템 렌더링으로 처리되기에 Properties 정보를 잃어버립니다.
 - 피스톤이 움직일 때 발생하는 무빙 피스톤(`moving_piston`)은 해당 무빙 피스톤의 `blockState` 태그를 가져와서 변환해야 합니다.
 <br><br><br>
 
