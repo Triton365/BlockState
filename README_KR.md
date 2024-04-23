@@ -27,13 +27,13 @@
 ```mcfunction
 summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 weapon loot blockstate:get
-tellraw @a {"nbt":"HandItems[0].tag","entity":"0-0-0-0-0"}
+tellraw @a {"nbt":"HandItems[0].components.minecraft:custom_data","entity":"0-0-0-0-0"}
 kill 0-0-0-0-0
 ```
-루트테이블이 반환하는 아이템의 `tag` 내부에서 BlockState 데이터를 찾을 수 있습니다.<br>
+루트테이블이 반환하는 아이템의 `minecraft:custom_data` 내부에서 BlockState 데이터를 찾을 수 있습니다.<br>
 일반적으로 다음과 같은 구조로 되어있습니다.<br>
 ```
-tag:{Name:"minecraft:...",Properties:{...}}
+"minecraft:custom_data":{Name:"minecraft:...",Properties:{...}}
 ```
 추가로, 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어 `snowy` 상태가 `false`인 잔디블록은 `snowy` 상태를 생략할 수 있으나, 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.<br>
 상태가 완전히 없는 블록의 경우 `Properties` 태그가 생략되기도 하며, 아래와 같은 상황에서는 `tag`가 존재하지 않는 아이템이 나오기도 합니다.
