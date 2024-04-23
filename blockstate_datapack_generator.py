@@ -1,8 +1,8 @@
 import json, heapq, urllib.request, subprocess, os, zipfile, sys
 
 
-VERSION = '1.20.2'
-PACK_FORMAT = 18
+VERSION = '1.20.5'
+PACK_FORMAT = 41
 NAMESPACE = 'blockstate'
 TEMP_DIRECTORY_NAME = 'BLOCKSTATE_TEMP_872be9e0a76f4da1'
 
@@ -28,6 +28,12 @@ def version_compare(v1,c,v2):
 STRINGFY_STATE_VALUES = False
 if version_compare(VERSION,'>=','1.20.2'):
     STRINGFY_STATE_VALUES = True
+
+# INLINE_LOOT_TABLE_ENABLED = False
+CUSTOM_DATA_ITEM_MODIFIER = "set_nbt"
+if version_compare(VERSION,'>=','1.20.5'):
+    # INLINE_LOOT_TABLE_ENABLED = True
+    CUSTOM_DATA_ITEM_MODIFIER = "set_custom_data"
 
 
 
@@ -63,11 +69,11 @@ subprocess.call(['java','-DbundlerMainClass=net.minecraft.data.Main','-jar','ser
 
 print('Copying the data...')
 with open(f'{TEMP_DIRECTORY_NAME}/generated/reports/blocks.json','r') as f:
-    data = json.load(f)
-for key in data:
-    del data[key]['states']
-    if len(data[key]) != 0:
-        data[key] = data[key]['properties']
+    rdata = json.load(f)
+data = dict()
+for key in rdata:
+    data[key] = rdata[key].get('properties',dict())
+del rdata
 
 
 print('Removing temporal files...')
@@ -189,7 +195,7 @@ class IntStateCheckEntry(Entry):
         super().__init__()
         if len(values) == 1:
             self.type = 'item'
-            self.functions.append('{"function":"set_nbt","tag":"{Properties:{%s:\'%d\'}}"}'%(key,values[0]))
+            self.functions.append('{"function":"%s","tag":"{Properties:{%s:\'%d\'}}"}'%(CUSTOM_DATA_ITEM_MODIFIER,key,values[0]))
         elif len(values) >= 2:
             self.type = 'alternatives' # alternatives 기반 2진 탐색
             mid = (len(values)+1)//2
@@ -213,10 +219,10 @@ class StrStateCheckEntry(Entry):
             if value in ('true','false'):
                 if STRINGFY_STATE_VALUES: self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(key,value)]
                 else:                     self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":%s}}}}'%(key,value)]
-                self.children[-1].functions  = ['{"function":"set_nbt","tag":"{Properties:{%s:\'%s\'}}"}'%(key,value)]
+                self.children[-1].functions  = ['{"function":"%s","tag":"{Properties:{%s:\'%s\'}}"}'%(CUSTOM_DATA_ITEM_MODIFIER,key,value)]
             else:
                 self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(key,value)]
-                self.children[-1].functions  = ['{"function":"set_nbt","tag":"{Properties:{%s:%s}}"}'%(key,value)]
+                self.children[-1].functions  = ['{"function":"%s","tag":"{Properties:{%s:%s}}"}'%(CUSTOM_DATA_ITEM_MODIFIER,key,value)]
         self.children[-1].conditions.clear()
 
 # 블록 엔트리, 그런데 현 위치의 블록이 self.block 리스트에 있는 경우
@@ -227,7 +233,7 @@ class SimpleBlockEntry(Entry):
         self.name = name
         self.exception = False
         self.blocks = [block]
-        self.functions.append('{"function":"set_nbt","tag":"{Name:\'minecraft:%s\'}"}'%block)
+        self.functions.append('{"function":"%s","tag":"{Name:\'minecraft:%s\'}"}'%(CUSTOM_DATA_ITEM_MODIFIER,block))
 
 # 블록 엔트리, 그런데 현 위치의 블록이 예외인 경우
 class ExceptionBlockEntry(Entry):
