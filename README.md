@@ -27,12 +27,12 @@ Below code is an example that prints the BlockState of the block underfoot.<br>
 ```mcfunction
 summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
 execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 weapon loot blockstate:get
-tellraw @a {"nbt":"HandItems[0].tag","entity":"0-0-0-0-0"}
+tellraw @a {"nbt":"HandItems[0].components.minecraft:custom_data","entity":"0-0-0-0-0"}
 kill 0-0-0-0-0
 ```
-The returned item's `tag` itself is the BlockState data, usually structured like this:<br>
+The returned item's `minecraft:custom_data` itself is the BlockState data, usually structured like this:<br>
 ```
-tag:{Name:"minecraft:...",Properties:{...}}
+"minecraft:custom_data":{Name:"minecraft:...",Properties:{...}}
 ```
 Each states won't be omitted even though they have default values. For example, a grass block whose `snowy` state is `false` can omit the `snowy` state, but the returned item will always contain `snowy:"false"` in its `Properties`.<br>
 In the case of a block that has no state at all, the `Properties` tag is omitted. And in the following situations, an item without a tag may appear.
