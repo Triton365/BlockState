@@ -29,13 +29,15 @@ STRINGFY_STATE_VALUES = False
 if version_compare(VERSION,'>=','1.20.2'):
     STRINGFY_STATE_VALUES = True
 
-INLINE_LOOT_TABLE_ENABLED = False
+INLINE_LOOT_TABLE_ALLOWED = False
 LOOT_TABLE_ENTRY_NAME = 'name'
 CUSTOM_DATA_ITEM_MODIFIER = "set_nbt"
+PREDICATE_SINGLE_BLOCK_ALLOWED = False
 if version_compare(VERSION,'>=','1.20.5'):
-    INLINE_LOOT_TABLE_ENABLED = True
+    INLINE_LOOT_TABLE_ALLOWED = True
     LOOT_TABLE_ENTRY_NAME = 'value'
     CUSTOM_DATA_ITEM_MODIFIER = "set_custom_data"
+    PREDICATE_SINGLE_BLOCK_ALLOWED = True
 
 
 
@@ -268,10 +270,11 @@ class CombinedBlockEntry(Entry):
         # 한 쪽이 예외 엔트리인 경우
         # 예외 엔트리가 첫번째 children이 아닌 두번째 children에 오도록 설계
         if block_entry_A.exception:
-            self.children = [block_entry_B,block_entry_A]
-            block_entry_B.conditions.append('{"condition":"location_check","predicate":{"block":{"blocks":["%s"]}}}'%('","'.join(block_entry_B.blocks)))
+            block_entry_A,block_entry_B = block_entry_B,block_entry_A
+        self.children = [block_entry_A,block_entry_B]
+        if PREDICATE_SINGLE_BLOCK_ALLOWED and len(block_entry_A.blocks) == 1:
+            block_entry_A.conditions.append('{"condition":"location_check","predicate":{"block":{"blocks":"%s"}}}'%block_entry_A.blocks[0])
         else:
-            self.children = [block_entry_A,block_entry_B]
             block_entry_A.conditions.append('{"condition":"location_check","predicate":{"block":{"blocks":["%s"]}}}'%('","'.join(block_entry_A.blocks)))
 
 
@@ -347,7 +350,7 @@ def mainf(block_group_list,state_group_list,name=None):
     else:
         e.set_last('loot_table',name)
     # 루트테이블 인라인 가능 여부 테스트
-    if INLINE_LOOT_TABLE_ENABLED and len(max_list) == 1:
+    if INLINE_LOOT_TABLE_ALLOWED and len(max_list) == 1:
         index = max_list[0]
         if len(block_group_list[index]) == 1 and len(state_group_list[index]) == 1:
             print('inlined :', block_group_list[index], state_group_list[index])
