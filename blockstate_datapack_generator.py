@@ -29,10 +29,12 @@ STRINGFY_STATE_VALUES = False
 if version_compare(VERSION,'>=','1.20.2'):
     STRINGFY_STATE_VALUES = True
 
-# INLINE_LOOT_TABLE_ENABLED = False
+INLINE_LOOT_TABLE_ENABLED = False
+LOOT_TABLE_ENTRY_NAME = 'name'
 CUSTOM_DATA_ITEM_MODIFIER = "set_nbt"
 if version_compare(VERSION,'>=','1.20.5'):
-    # INLINE_LOOT_TABLE_ENABLED = True
+    INLINE_LOOT_TABLE_ENABLED = True
+    LOOT_TABLE_ENTRY_NAME = 'value'
     CUSTOM_DATA_ITEM_MODIFIER = "set_custom_data"
 
 
@@ -136,6 +138,11 @@ class Entry:
         else:
             self.type = loot_type
             self.name = name
+    def get_loot_table(self):
+        if isinstance(self.name,int):
+            return entry_files[self.name]
+        else:
+            return self.name
     def get_number_of_case(self): # 이 엔트리가 담당하는 블록의 모든 경우의 수 계산
         if self.number_of_case == None:
             if self.type == 'alternatives':
@@ -143,7 +150,7 @@ class Entry:
                 for child in self.children:
                     self.number_of_case += child.get_number_of_case()
             elif self.type == 'loot_table':
-                self.number_of_case = entry_files[self.name].get_number_of_case()
+                self.number_of_case = self.get_loot_table().get_number_of_case()
             else:
                 self.number_of_case = 1
         return self.number_of_case
@@ -157,7 +164,7 @@ class Entry:
                     self.block_detection_count_sum += child.get_number_of_case()*conditionSum
                     self.block_detection_count_sum += child.get_block_detection_count()
             elif self.type == 'loot_table':
-                self.block_detection_count_sum = entry_files[self.name].get_block_detection_count()
+                self.block_detection_count_sum = self.get_loot_table().get_block_detection_count()
         return self.block_detection_count_sum
     def get_average_lag(self): # get_block_detection_count / get_number_of_case
         if self.average_lag == None:
@@ -170,7 +177,13 @@ class Entry:
         if self.type == 'item':
             fwrite(',"name":"%s"'%self.name)
         if self.type == 'loot_table':
-            fwrite(f',"name":"{NAMESPACE}:{self.name:03}"')
+            fwrite(f',"{LOOT_TABLE_ENTRY_NAME}":')
+            if isinstance(self.name,int):
+                fwrite(f'"{NAMESPACE}:{self.name:03}"')
+            else:
+                fwrite('{"type":"command","pools":[{"rolls":1,"entries":[')
+                self.name.write_to_file(fwrite)
+                fwrite(']}]}')
         if self.conditions:
             fwrite(',"conditions":[')
             fwrite(','.join(self.conditions))
@@ -333,6 +346,16 @@ def mainf(block_group_list,state_group_list,name=None):
         e.set_last('item','cod')
     else:
         e.set_last('loot_table',name)
+    # 루트테이블 인라인 가능 여부 테스트
+    if INLINE_LOOT_TABLE_ENABLED and len(max_list) == 1:
+        index = max_list[0]
+        if len(block_group_list[index]) == 1 and len(state_group_list[index]) == 1:
+            print('inlined :', block_group_list[index], state_group_list[index])
+            main_entries.append(SimpleBlockEntry(block_group_list[index][0],'loot_table',e))
+            del block_group_list[index]
+            del state_group_list[index]
+            mainf(block_group_list,state_group_list,name)
+            return
     entry_files.append(e)
     # 빈도수가 가장 높은 state가 포함된 리스트(A)와 포함되지 않은 리스트(B)로 나눔
     j = 0
