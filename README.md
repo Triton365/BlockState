@@ -17,6 +17,7 @@ This pack provides a giant loot-table that extracts the BlockState data of the b
 - JE 1.20.4: ↑ (no change)
 - JE 1.20.5: <https://github.com/Triton365/BlockState/releases/download/v1.0.2/BlockState_1.20.5.zip>
 - JE 1.20.6: ↑ (no change)
+- JE 1.21&nbsp;&nbsp;: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21.zip>
 
 
 You can preview the contents of this pack at [datapack-preview branch](https://github.com/Triton365/BlockState/tree/datapack-preview).
