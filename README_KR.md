@@ -17,6 +17,7 @@
 - JE 1.20.4: ↑ (변경 없음)
 - JE 1.20.5: <https://github.com/Triton365/BlockState/releases/download/v1.0.2/BlockState_1.20.5.zip>
 - JE 1.20.6: ↑ (변경 없음)
+- JE 1.21&nbsp;&nbsp;: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21.zip>
 
 
 이 팩의 내부가 어떻게 생겼는지 [datapack-preview 브랜치](https://github.com/Triton365/BlockState/tree/datapack-preview)에서 볼 수 있습니다.
