@@ -1,8 +1,8 @@
 import json, heapq, urllib.request, subprocess, os, zipfile, sys
 
 
-VERSION = '1.20.5'
-PACK_FORMAT = 41
+VERSION = '1.21'
+PACK_FORMAT = 48
 NAMESPACE = 'blockstate'
 TEMP_DIRECTORY_NAME = 'BLOCKSTATE_TEMP_872be9e0a76f4da1'
 
@@ -38,6 +38,10 @@ if version_compare(VERSION,'>=','1.20.5'):
     LOOT_TABLE_ENTRY_NAME = 'value'
     CUSTOM_DATA_ITEM_MODIFIER = "set_custom_data"
     PREDICATE_SINGLE_BLOCK_ALLOWED = True
+
+DATAPACK_DIRECTORY_PATH_S = 's'
+if version_compare(VERSION,'>=','1.21'):
+    DATAPACK_DIRECTORY_PATH_S = ''
 
 
 
@@ -432,13 +436,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''.encode())
-    with main_zip.open(f'data/{NAMESPACE}/loot_tables/get.json','w') as f:
+    with main_zip.open(f'data/{NAMESPACE}/loot_table{DATAPACK_DIRECTORY_PATH_S}/get.json','w') as f:
         fwrite = lambda x: f.write(x.encode())
         fwrite('{"type":"command","pools":[{"rolls":1,"entries":[')
         main_entries[0].write_to_file(fwrite)
         fwrite(']}]}')
     for filename,e in enumerate(entry_files):
-        with main_zip.open(f'data/{NAMESPACE}/loot_tables/{filename:03}.json','w') as f:
+        with main_zip.open(f'data/{NAMESPACE}/loot_table{DATAPACK_DIRECTORY_PATH_S}/{filename:03}.json','w') as f:
             fwrite = lambda x: f.write(x.encode())
             fwrite('{"type":"command","pools":[{"rolls":1,"entries":[')
             e.write_to_file(fwrite)
