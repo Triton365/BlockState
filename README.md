@@ -65,6 +65,6 @@ It was created to eliminate maintenance work as much as possible, but even so, t
 
 ## Benchmark
 ~~As a result of comparison with the method using the function tree, it was concluded that the loot-table method is faster.~~<br>
-I'm not sure if this is true now, I haven't checked to see what happened to performance as the game moved to a component structure.<br>
+I'm not sure if this is true now, I haven't checked to see what happened to performance as the game moved to the component structure.<br>
 <https://github.com/Triton365/BlockState/blob/main/benchmark/BENCHMARK.md><br>
 <br><br>
