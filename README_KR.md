@@ -7,37 +7,29 @@
 <br><br>
 
 ## 다운로드
-- JE 1.19.2: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.2.zip>
-- JE 1.19.3: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.3.zip>
-- JE 1.19.4: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.19.4.zip>
-- JE 1.20&nbsp;&nbsp;: <https://github.com/Triton365/BlockState/releases/download/v1.0.0/BlockState_1.20.zip>
-- JE 1.20.1: ↑ (변경 없음)
-- JE 1.20.2: <https://github.com/Triton365/BlockState/releases/download/v1.0.1/BlockState_1.20.2.zip>
-- JE 1.20.3: <https://github.com/Triton365/BlockState/releases/download/v1.0.1/BlockState_1.20.3.zip>
-- JE 1.20.4: ↑ (변경 없음)
-- JE 1.20.5: <https://github.com/Triton365/BlockState/releases/download/v1.0.2/BlockState_1.20.5.zip>
-- JE 1.20.6: ↑ (변경 없음)
-- JE 1.21&nbsp;&nbsp;: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21.zip>
+- JE 1.21.2-1.21.3: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21_2.zip>
 
 
-이 팩의 내부가 어떻게 생겼는지 [datapack-preview 브랜치](https://github.com/Triton365/BlockState/tree/datapack-preview)에서 볼 수 있습니다.
+이전 버전의 팩들은 [Releases](https://github.com/Triton365/BlockState/releases) 페이지에서 확인할 수 있습니다.
+
+이 팩의 내부가 어떻게 생겼는지 [datapack-preview 브랜치](https://github.com/Triton365/BlockState/tree/datapack-preview)에서 확인할 수 있습니다.
 <br><br><br>
 
 ## 루트테이블 사용법
 `/loot` 명령어로 `blockstate:get` 루트테이블을 호출하여 주어진 위치에 있는 블록의 BlockState 데이터를 얻을 수 있습니다.<br>
 아래는 간단한 테스트용 예제입니다. 발 밑 블록의 BlockState를 출력합니다.<br>
 ```mcfunction
-summon armor_stand ~ ~ ~ {UUID:[I;0,0,0,0],Invulnerable:1b,NoGravity:1b}
-execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 weapon loot blockstate:get
-tellraw @a {"nbt":"HandItems[0].components.minecraft:custom_data","entity":"0-0-0-0-0"}
+summon item_display ~ ~ ~ {UUID:[I;0,0,0,0]}
+execute at @s positioned ~ ~-0.1 ~ run loot replace entity 0-0-0-0-0 contents loot blockstate:get
+tellraw @a {"nbt":"item.components.minecraft:custom_data","entity":"0-0-0-0-0"}
 kill 0-0-0-0-0
 ```
-루트테이블이 반환하는 아이템의 `minecraft:custom_data` 내부에서 BlockState 데이터를 찾을 수 있습니다.<br>
-일반적으로 다음과 같은 구조로 되어있습니다.<br>
+루트테이블이 반환하는 아이템의 `minecraft:custom_data` 컴포넌트 자체가 BlockState 데이터입니다.<br>
+보통은 다음과 같은 구조로 되어있습니다.<br>
 ```
 "minecraft:custom_data":{Name:"minecraft:...",Properties:{...}}
 ```
-추가로, 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어 `snowy` 상태가 `false`인 잔디블록은 `snowy` 상태를 생략할 수 있으나, 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.<br>
+추가로, 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어 `snowy` 상태가 `false`인 잔디블록은 보통 `snowy` 상태를 생략할 수 있으나, 이 루트테이블에서 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.<br>
 상태가 완전히 없는 블록의 경우 `Properties` 태그가 생략되기도 하며, 아래와 같은 상황에서는 `tag`가 존재하지 않는 아이템이 나오기도 합니다.
 - 주어진 위치의 청크가 언로드되어 있는 경우
 - 최대 높이 초과 또는 최저 높이 미만 영역에 있는 경우
@@ -66,6 +58,6 @@ kill 0-0-0-0-0
 
 ## 성능 비교
 ~~함수트리를 이용한 방식과 비교해본 결과 루트테이블이 더 빠르다는 결론이 나왔습니다.~~<br>
-이게 아직도 빠른건지 모르겠습니다. 컴포넌트 구조로 업데이트된 이후로 아직 성능 테스트를 안해봤습니다.
+이게 지금도 빠를지는 모르겠습니다. 컴포넌트 구조로 업데이트된 이후로 아직 성능 테스트를 안해봤습니다.
 <https://github.com/Triton365/BlockState/blob/main/benchmark/BENCHMARK.md><br>
 <br><br>
