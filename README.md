@@ -32,7 +32,7 @@ Each states won't be omitted even though they have default values. For example, 
 In the case of a block that has no state at all, `Properties` tag is omitted. And in the following situations, an item without any component can appear.
 - If the chunk of the current position is unloaded
 - If called from a position higher than the maximum height or lower than the minimum height
-- If the current block is from other versions or mods
+- If the current block is from higher versions or mods
 <br><br><br>
 
 ## Precautions when applying to the falling_block
