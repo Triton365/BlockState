@@ -46,7 +46,7 @@ In the case of a block that has no state at all, `Properties` tag is omitted. An
 ## Precautions when applying to the block_display
 - Unloaded chunk, out of build range, blocks from higher versions/mods will make this loot-table return an item with no components.
 - [MC-259990](https://bugs.mojang.com/browse/MC-259990): block display entities are invisible when `block_state` is head, banner, sign or bell.
-- [MC-259954](https://bugs.mojang.com/browse/MC-259954): Some blocks (bed/chest/conduit/enderchest/shulkerbox) are processed as item renders, so they lose their `Properties` data.
+- [MC-259954](https://bugs.mojang.com/browse/MC-259954): Some blocks (bed/chest/conduit/enderchest/shulkerbox) are processed as item renders, so they ignore their `Properties` data.
 - A `moving_piston` block which can appear when the piston extends/retracts needs to be converted by getting the `blockState` nbt of that `moving_piston`.
 <br><br><br>
 
