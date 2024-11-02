@@ -5,7 +5,7 @@
 # BlockState
 This pack provides a giant loot table that extracts the blockstate data of the block at the called location.
 
-In commands, there are two vanilla tricks to get the blockstate data: summoning an arrow to get its `inBlockState` nbt, or using the `/loot ... mine` command to drop the block as item. However, both have some drawbacks. The arrow method takes 1 tick and doesn't work for blocks that don't have collision, and the loot mine method breaks when other datapacks change the vanilla loot tables, and even there are some blocks that don't/can't have their loot table. The only (almost-)perfect way to do this is to hardcode all blocks and states, as is currently done in this pack.
+In commands, there are two vanilla tricks to get the blockstate data: summoning an arrow to get its `inBlockState` nbt, or using the `/loot ... mine` command to drop the block as item. However, both have some drawbacks. The arrow method takes 1 tick and doesn't work for blocks that don't have collision, and the loot mine method breaks when other datapacks change the vanilla loot tables, and even there are some blocks that don't/can't have their loot table. The only (near-)perfect way to do this is to hardcode all blocks and states, as is currently done in this pack.
 
 This pack gets blockstate data using a really big binary search tree with all blocks and states hardcoded. The tree itself is based on a loot table, but it does not rely on or change the vanilla loot tables.
 
