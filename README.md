@@ -42,7 +42,7 @@ In the case of a block that has no state at all, `Properties` tag is omitted. An
 
 ## Precautions when applying to the falling_block
 - Unloaded chunk, out of build range, blocks from higher versions/mods will make this loot table return an item with no components.
-- Falling blocks cannot be `air`, it will forcibly changed to default sand.
+- [MC-220091](https://bugs.mojang.com/browse/MC-220091): Falling blocks cannot be any air block, it will forcibly changed to default sand. (`air`,`cave_air`,`void_air`)
 - [MC-64634](https://bugs.mojang.com/browse/MC-64634): Blocks without block model are invisible.
 - [MC-72849](https://bugs.mojang.com/browse/MC-72849): Changing the `BlockState` of a falling_block with the `/data` command does not reflect it visually. You can bypass it by summoning a falling_block to a distant location like (29999999, 0, 0), changing the `BlockState` there, and then tp-ing the falling block to the desired location.
 - A `moving_piston` block which can appear when the piston extends/retracts needs to be converted by getting the `blockState` nbt of that `moving_piston`.
