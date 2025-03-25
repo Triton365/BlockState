@@ -12,7 +12,7 @@
 <br><br>
 
 ## 다운로드
-- JE 1.21.4: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21.4.zip>
+- JE 1.21.5: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21.5.zip>
 
 
 이전 버전의 팩들은 [Releases](https://github.com/Triton365/BlockState/releases) 페이지에서 확인할 수 있습니다.
@@ -57,7 +57,7 @@ kill 0-0-0-0-0
 <br><br><br>
 
 ## blockstate_datapack_generator.py
-`blockstate_datapack_generator.py` 파일은 버전을 주면 이 데이터팩을 자동으로 생성해주는 파이썬 스크립트입니다. 간단하게 해당 파일을 열어서 VERSION 변수의 값을 원하는 값으로 변경한 뒤 실행하면 됩니다. 그러면 이 스크립트는 그 버전에 해당하는 블록 리스트를 [Data Generator](https://minecraft.fandom.com/wiki/Tutorials/Running_the_data_generator)로 생성한 뒤, 그 리스트를 기반으로 이진 탐색 루트테이블을 자동 생성합니다.<br>
+`blockstate_datapack_generator.py` 파일은 버전을 주면 이 데이터팩을 자동으로 생성해주는 파이썬 스크립트입니다. 간단하게 해당 파일을 열어서 VERSION 변수의 값을 원하는 값으로 변경한 뒤 실행하면 됩니다. 그러면 이 스크립트는 그 버전에 해당하는 블록 리스트를 [Data Generator](https://minecraft.wiki/w/Tutorial:Running_the_data_generator)로 생성한 뒤, 그 리스트를 기반으로 이진 탐색 루트테이블을 자동 생성합니다.<br>
 유지보수가 최대한 필요없는 시스템을 고안한 것이지만, 그럼에도 버전 간 루트테이블 구조에 차이가 발생한다면 그때는 어쩔 수 없이 직접 코드를 수정해야 한다는 단점이 존재합니다.<br>
 <br><br>
 
