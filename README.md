@@ -12,7 +12,7 @@ This pack gets blockstate data using a really big binary search tree with all bl
 <br><br>
 
 ## Download
-- JE 1.21.4: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21.5.zip>
+- JE 1.21.5: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21.5.zip>
 
 
 For older versions, see [Releases](https://github.com/Triton365/BlockState/releases).
@@ -56,7 +56,7 @@ In the case of a block that has no state at all, `Properties` tag is omitted. An
 <br><br><br>
 
 ## blockstate_datapack_generator.py
-The `blockstate_datapack_generator.py` is a python script that automatically creates this datapack when you give it a version. Simply open the file, change the value of the `VERSION` variable, and run it. Then the script will create a block list corresponding to that version with [Data Generator](https://minecraft.fandom.com/wiki/Tutorials/Running_the_data_generator), and then automatically create a binary search loot table based on that list.<br>
+The `blockstate_datapack_generator.py` is a python script that automatically creates this datapack when you give it a version. Simply open the file, change the value of the `VERSION` variable, and run it. Then the script will create a block list corresponding to that version with [Data Generator](https://minecraft.wiki/w/Tutorial:Running_the_data_generator), and then automatically create a binary search loot table based on that list.<br>
 It was created to eliminate maintenance work as much as possible, but even so, there's still a downside that the codes need to be updated whenever the loot table structure changes.<br>
 <br><br>
 
