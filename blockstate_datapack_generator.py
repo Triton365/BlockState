@@ -225,7 +225,12 @@ class IntStateCheckEntry(Entry):
         elif len(values) >= 2:
             self.type = 'alternatives' # alternatives 기반 2진 탐색
             mid = (len(values)+1)//2
-            self.children = [IntStateCheckEntry(key,values[:mid]),IntStateCheckEntry(key,values[mid:])]
+            leftpart = IntStateCheckEntry(key,values[:mid])
+            rightpart = IntStateCheckEntry(key,values[mid:])
+            if rightpart.type == 'alternatives':
+                self.children = [leftpart]+rightpart.children
+            else:
+                self.children = [leftpart,rightpart]
             if STRINGFY_STATE_VALUES:
                 if len(values) == 2: self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":"%d"}}}}'%(key,values[mid-1]))
                 else:                self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":{"max":"%d"}}}}}'%(key,values[mid-1]))
@@ -282,7 +287,10 @@ class CombinedBlockEntry(Entry):
         # 예외 엔트리가 첫번째 children이 아닌 두번째 children에 오도록 설계
         if block_entry_A.exception:
             block_entry_A,block_entry_B = block_entry_B,block_entry_A
-        self.children = [block_entry_A,block_entry_B]
+        if block_entry_B.type == 'alternatives':
+            self.children = [block_entry_A] + block_entry_B.children
+        else:
+            self.children = [block_entry_A,block_entry_B]
         if PREDICATE_SINGLE_BLOCK_ALLOWED and len(block_entry_A.blocks) == 1:
             block_entry_A.conditions.append('{"condition":"location_check","predicate":{"block":{"blocks":"%s"}}}'%block_entry_A.blocks[0])
         else:
@@ -405,6 +413,7 @@ main_entries.append(ExceptionBlockEntry())
 heapq.heapify(main_entries)
 while len(main_entries) >= 2:
     # 연산량이 가장 적은 엔트리 두 개를 뽑아 alternatives로 병합
+    # TODO: ReturnFunctionTree
     a = heapq.heappop(main_entries)
     b = heapq.heappop(main_entries)
     c = CombinedBlockEntry(a,b)
