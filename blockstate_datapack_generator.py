@@ -1,14 +1,12 @@
 import json, heapq, urllib.request, subprocess, os, zipfile, sys
 
 
-VERSION = '1.21'
-PACK_FORMAT = 48
+VERSION = '1.21.9'
 NAMESPACE = 'blockstate'
 TEMP_DIRECTORY_NAME = 'BLOCKSTATE_TEMP_872be9e0a76f4da1'
 
-if len(sys.argv) >= 3:
+if len(sys.argv) >= 2:
     VERSION = sys.argv[1]
-    PACK_FORMAT = int(sys.argv[2])
 
 
 def version_compare(v1,c,v2):
@@ -43,6 +41,9 @@ DATAPACK_DIRECTORY_PATH_S = 's'
 if version_compare(VERSION,'>=','1.21'):
     DATAPACK_DIRECTORY_PATH_S = ''
 
+PACK_FORMAT_FUNC = lambda x: f'"pack_format": {x["data"]}'
+if version_compare(VERSION,'>=','1.21.9'):
+    PACK_FORMAT_FUNC = lambda x: f'"min_format": {x["data_major"]},\n"max_format": {x["data_major"]}'
 
 
 
@@ -69,6 +70,12 @@ with urllib.request.urlopen(url) as f:
 print('Downloading server.jar...')
 os.mkdir(TEMP_DIRECTORY_NAME)
 urllib.request.urlretrieve(url,f'{TEMP_DIRECTORY_NAME}/server.jar')
+
+
+print('Determining pack format...')
+with zipfile.ZipFile(f'{TEMP_DIRECTORY_NAME}/server.jar','r') as zf:
+    with zf.open('version.json') as f:
+        pack_format_string = PACK_FORMAT_FUNC(json.load(f)['pack_version'])
 
 
 print('Running the data generator...')
@@ -409,14 +416,14 @@ with zipfile.ZipFile(f'BlockState_{VERSION}.zip','w') as main_zip:
     with main_zip.open('pack.mcmeta','w') as f:
         f.write(f'''{{
   "pack": {{
-    "pack_format": {PACK_FORMAT},
+    {pack_format_string},
     "description": "https://github.com/Triton365/BlockState"
   }}
 }}'''.encode())
     with main_zip.open('LICENSE','w') as f:
         f.write(f'''MIT License
 
-Copyright (c) 2023 Triton365
+Copyright (c) 2025 Triton365
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

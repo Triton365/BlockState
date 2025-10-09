@@ -4,8 +4,6 @@ on:
       mc_version:
         type: string
         default: "1."
-      pack_format:
-        type: number
 
 jobs:
   test_job:
@@ -45,7 +43,7 @@ jobs:
           git reset origin/datapack-preview
           mv ../blockstate_datapack_generator.py .
           mv ../run.py .
-          python blockstate_datapack_generator.py ${{ inputs.mc_version }} ${{ inputs.pack_format }}
+          python blockstate_datapack_generator.py ${{ inputs.mc_version }}
           python run.py ${{ inputs.mc_version }}
           rm -f blockstate_datapack_generator.py
           rm -f run.py
