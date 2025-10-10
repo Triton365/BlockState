@@ -12,7 +12,7 @@
 <br><br>
 
 ## 다운로드
-- JE 1.21.6~1.21.8: <https://github.com/Triton365/BlockState/releases/download/v1.0.3/BlockState_1.21.6.zip>
+- JE 1.21.9~1.21.10: <https://github.com/Triton365/BlockState/releases/download/v1.1.0/BlockState_1.21.9.zip>
 
 
 이전 버전의 팩들은 [Releases](https://github.com/Triton365/BlockState/releases) 페이지에서 확인할 수 있습니다.
