@@ -78,6 +78,7 @@ def mcstr(x):
 with open('testcommand.mcfunction','w') as f:
     fwrite = f.write
     linenum = 3
+    fwrite('gamerule maxCommandChainLength 2147483647\n')
     for block,states in data.items():
         block = remove_minecraft_namespace(block)
         keys = states.keys()
