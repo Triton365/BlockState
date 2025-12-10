@@ -49,7 +49,7 @@ jobs:
           rm -f run.py
           mv BlockState_${{ inputs.mc_version }}.zip ..
           git add --all
-          git commit -m "${{ inputs.mc_version }}"
+          git commit -m "${{ inputs.mc_version }}" || true
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
