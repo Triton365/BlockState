@@ -1,7 +1,7 @@
 import json, heapq, urllib.request, subprocess, os, zipfile, sys, itertools
 
 
-VERSION = '1.21.9'
+VERSION = '1.21.11'
 NAMESPACE = 'blockstate'
 TEMP_DIRECTORY_NAME = 'BLOCKSTATE_TEMP_872be9e0a76f4da1'
 
@@ -59,8 +59,8 @@ os.rmdir(TEMP_DIRECTORY_NAME)
 del temp
 
 
-with open('testdata.json','r') as f:
-    data = json.load(f)
+# with open('testdata.json','r') as f:
+#     data = json.load(f)
 
 def remove_minecraft_namespace(text):
     if text.startswith('minecraft:'):
@@ -77,8 +77,9 @@ def mcstr(x):
 
 with open('testcommand.mcfunction','w') as f:
     fwrite = f.write
-    linenum = 3
-    fwrite('gamerule maxCommandChainLength 2147483647\n')
+    linenum = 5
+    fwrite('gamerule max_command_sequence_length 2147483647\n')
+    fwrite('say test start\n')
     for block,states in data.items():
         block = remove_minecraft_namespace(block)
         keys = states.keys()
@@ -101,4 +102,5 @@ with open('testcommand.mcfunction','w') as f:
             fwrite('loot replace block 0 0 0 contents loot blockstate:get\n')
             fwrite('execute unless items block 0 0 0 contents cod[custom_data={Name:"minecraft:'+block+'"}] run say ERR'+str(linenum)+'\n')
             linenum += 3
+    fwrite('say test end\n')
 
