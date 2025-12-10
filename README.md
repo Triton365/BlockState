@@ -12,7 +12,7 @@ This pack gets blockstate data using a really big binary search tree with all bl
 <br><br>
 
 ## Download
-- JE 1.21.9-1.21.10: <https://github.com/Triton365/BlockState/releases/download/v1.1.0/BlockState_1.21.9.zip>
+- JE 1.21.9-1.21.11: <https://github.com/Triton365/BlockState/releases/download/v1.1.0/BlockState_1.21.9.zip>
 
 
 For older versions, see [Releases](https://github.com/Triton365/BlockState/releases).
