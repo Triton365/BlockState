@@ -47,7 +47,13 @@ jobs:
           python run.py ${{ inputs.mc_version }}
           rm -f blockstate_datapack_generator.py
           rm -f run.py
-          rm -f BlockState_${{ inputs.mc_version }}.zip
+          mv BlockState_${{ inputs.mc_version }}.zip ..
           git add --all
           git commit -m "${{ inputs.mc_version }}"
           git push origin master:datapack-preview
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifactnamesans
+          path: ./BlockState_${{ inputs.mc_version }}.zip
+          retention-days: 3
