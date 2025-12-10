@@ -50,10 +50,11 @@ jobs:
           mv BlockState_${{ inputs.mc_version }}.zip ..
           git add --all
           git commit -m "${{ inputs.mc_version }}" || true
+          git push origin master:datapack-preview
           rm -rf .git
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: BlockState_${{ inputs.mc_version }}
           path: temp2
-          retention-days: 3
+          retention-days: 1
