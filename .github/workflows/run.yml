@@ -50,9 +50,10 @@ jobs:
           mv BlockState_${{ inputs.mc_version }}.zip ..
           git add --all
           git commit -m "${{ inputs.mc_version }}" || true
+          rm -f .git
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: artifactnamesans
-          path: ./BlockState_${{ inputs.mc_version }}.zip
+          name: BlockState_${{ inputs.mc_version }}
+          path: temp2
           retention-days: 3
