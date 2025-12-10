@@ -50,7 +50,6 @@ jobs:
           mv BlockState_${{ inputs.mc_version }}.zip ..
           git add --all
           git commit -m "${{ inputs.mc_version }}"
-          git push origin master:datapack-preview
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
