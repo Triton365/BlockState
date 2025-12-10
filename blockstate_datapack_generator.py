@@ -43,7 +43,7 @@ if version_compare(VERSION,'>=','1.21'):
 
 PACK_FORMAT_FUNC = lambda x: f'"pack_format": {x["data"]}'
 if version_compare(VERSION,'>=','1.21.9'):
-    PACK_FORMAT_FUNC = lambda x: f'"min_format": {x["data_major"]},\n"max_format": {x["data_major"]}'
+    PACK_FORMAT_FUNC = lambda x: f'"min_format": {x["data_major"]},\n    "max_format": {x["data_major"]}'
 
 
 
