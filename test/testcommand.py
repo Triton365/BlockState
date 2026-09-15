@@ -1,7 +1,7 @@
 import json, heapq, urllib.request, subprocess, os, zipfile, sys, itertools
 
 
-VERSION = '1.21.11'
+VERSION = '26.3'
 NAMESPACE = 'blockstate'
 TEMP_DIRECTORY_NAME = 'BLOCKSTATE_TEMP_872be9e0a76f4da1'
 

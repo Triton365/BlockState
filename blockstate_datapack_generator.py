@@ -1,7 +1,7 @@
 import json, heapq, urllib.request, subprocess, os, zipfile, sys
 
 
-VERSION = '1.21.9'
+VERSION = '26.3'
 NAMESPACE = 'blockstate'
 TEMP_DIRECTORY_NAME = 'BLOCKSTATE_TEMP_872be9e0a76f4da1'
 
@@ -44,6 +44,23 @@ if version_compare(VERSION,'>=','1.21'):
 PACK_FORMAT_FUNC = lambda x: f'"pack_format": {x["data"]}'
 if version_compare(VERSION,'>=','1.21.9'):
     PACK_FORMAT_FUNC = lambda x: f'"min_format": {x["data_major"]},\n    "max_format": {x["data_major"]}'
+
+PREDICATE_TYPE_KEY = 'condition'
+ITEM_MODIFIER_TYPE_KEY = 'function'
+CONDITIONS_KEY = 'conditions'
+CONDITIONS_IS_ARRAY = True
+MODIFIER_KEY = 'functions'
+MODIFIER_ALLOW_SINGLE_OBJECT = False
+if version_compare(VERSION, '>=', '26.3'):
+    PREDICATE_TYPE_KEY = 'type'
+    ITEM_MODIFIER_TYPE_KEY = 'type'
+    CONDITIONS_KEY = 'condition'
+    CONDITIONS_IS_ARRAY = False
+    MODIFIER_KEY = 'modifier'
+    MODIFIER_ALLOW_SINGLE_OBJECT = True
+
+
+
 
 
 
@@ -198,13 +215,22 @@ class Entry:
                 self.name.write_to_file(fwrite)
                 fwrite(']}]}')
         if self.conditions:
-            fwrite(',"conditions":[')
-            fwrite(','.join(self.conditions))
-            fwrite(']')
+            assert len(self.conditions) <= 1, f"Expected at most 1 condition, got {self.conditions}"
+            if CONDITIONS_IS_ARRAY:
+                fwrite(',"conditions":[')
+                fwrite(','.join(self.conditions))
+                fwrite(']')
+            else:
+                fwrite(f',"{CONDITIONS_KEY}":')
+                fwrite(self.conditions[0])
         if self.functions:
-            fwrite(',"functions":[')
-            fwrite(','.join(self.functions))
-            fwrite(']')
+            if MODIFIER_ALLOW_SINGLE_OBJECT and len(self.functions) == 1:
+                fwrite(f',"{MODIFIER_KEY}":')
+                fwrite(self.functions[0])
+            else:
+                fwrite(f',"{MODIFIER_KEY}":[')
+                fwrite(','.join(self.functions))
+                fwrite(']')
         if self.type == 'alternatives':
             fwrite(',"children":[')
             self.children[0].write_to_file(fwrite)
@@ -221,7 +247,7 @@ class IntStateCheckEntry(Entry):
         super().__init__()
         if len(values) == 1:
             self.type = 'item'
-            self.functions.append('{"function":"%s","tag":"{Properties:{%s:\'%d\'}}"}'%(CUSTOM_DATA_ITEM_MODIFIER,key,values[0]))
+            self.functions.append('{"%s":"%s","tag":"{Properties:{%s:\'%d\'}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,key,values[0]))
         elif len(values) >= 2:
             self.type = 'alternatives' # alternatives 기반 2진 탐색
             mid = (len(values)+1)//2
@@ -232,11 +258,11 @@ class IntStateCheckEntry(Entry):
             else:
                 self.children = [leftpart,rightpart]
             if STRINGFY_STATE_VALUES:
-                if len(values) == 2: self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":"%d"}}}}'%(key,values[mid-1]))
-                else:                self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":{"max":"%d"}}}}}'%(key,values[mid-1]))
+                if len(values) == 2: self.children[0].conditions.append('{"%s":"location_check","predicate":{"block":{"state":{"%s":"%d"}}}}'%(PREDICATE_TYPE_KEY,key,values[mid-1]))
+                else:                self.children[0].conditions.append('{"%s":"location_check","predicate":{"block":{"state":{"%s":{"max":"%d"}}}}}'%(PREDICATE_TYPE_KEY,key,values[mid-1]))
             else:
-                if len(values) == 2: self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":%d}}}}'%(key,values[mid-1]))
-                else:                self.children[0].conditions.append('{"condition":"location_check","predicate":{"block":{"state":{"%s":{"max":%d}}}}}'%(key,values[mid-1]))
+                if len(values) == 2: self.children[0].conditions.append('{"%s":"location_check","predicate":{"block":{"state":{"%s":%d}}}}'%(PREDICATE_TYPE_KEY,key,values[mid-1]))
+                else:                self.children[0].conditions.append('{"%s":"location_check","predicate":{"block":{"state":{"%s":{"max":%d}}}}}'%(PREDICATE_TYPE_KEY,key,values[mid-1]))
 
 # 엔트리, 그런데 문자열 상태를 선형 탐색하는 children 엔트리를 자동 생성하는
 class StrStateCheckEntry(Entry):
@@ -248,12 +274,12 @@ class StrStateCheckEntry(Entry):
             self.children.append(Entry())
             self.children[-1].type = 'item'
             if value in ('true','false'):
-                if STRINGFY_STATE_VALUES: self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(key,value)]
-                else:                     self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":%s}}}}'%(key,value)]
-                self.children[-1].functions  = ['{"function":"%s","tag":"{Properties:{%s:\'%s\'}}"}'%(CUSTOM_DATA_ITEM_MODIFIER,key,value)]
+                if STRINGFY_STATE_VALUES: self.children[-1].conditions = ['{"%s":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(PREDICATE_TYPE_KEY,key,value)]
+                else:                     self.children[-1].conditions = ['{"%s":"location_check","predicate":{"block":{"state":{"%s":%s}}}}'%(PREDICATE_TYPE_KEY,key,value)]
+                self.children[-1].functions  = ['{"%s":"%s","tag":"{Properties:{%s:\'%s\'}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,key,value)]
             else:
-                self.children[-1].conditions = ['{"condition":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(key,value)]
-                self.children[-1].functions  = ['{"function":"%s","tag":"{Properties:{%s:%s}}"}'%(CUSTOM_DATA_ITEM_MODIFIER,key,value)]
+                self.children[-1].conditions = ['{"%s":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(PREDICATE_TYPE_KEY,key,value)]
+                self.children[-1].functions  = ['{"%s":"%s","tag":"{Properties:{%s:%s}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,key,value)]
         self.children[-1].conditions.clear()
 
 # 블록 엔트리, 그런데 현 위치의 블록이 self.block 리스트에 있는 경우
@@ -264,7 +290,7 @@ class SimpleBlockEntry(Entry):
         self.name = name
         self.exception = False
         self.blocks = [block]
-        self.functions.append('{"function":"%s","tag":"{Name:\'minecraft:%s\'}"}'%(CUSTOM_DATA_ITEM_MODIFIER,block))
+        self.functions.append('{"%s":"%s","tag":"{Name:\'minecraft:%s\'}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,block))
 
 # 블록 엔트리, 그런데 현 위치의 블록이 예외인 경우
 class ExceptionBlockEntry(Entry):
@@ -292,9 +318,9 @@ class CombinedBlockEntry(Entry):
         else:
             self.children = [block_entry_A,block_entry_B]
         if PREDICATE_SINGLE_BLOCK_ALLOWED and len(block_entry_A.blocks) == 1:
-            block_entry_A.conditions.append('{"condition":"location_check","predicate":{"block":{"blocks":"%s"}}}'%block_entry_A.blocks[0])
+            block_entry_A.conditions.append('{"%s":"location_check","predicate":{"block":{"blocks":"%s"}}}'%(PREDICATE_TYPE_KEY,block_entry_A.blocks[0]))
         else:
-            block_entry_A.conditions.append('{"condition":"location_check","predicate":{"block":{"blocks":["%s"]}}}'%('","'.join(block_entry_A.blocks)))
+            block_entry_A.conditions.append('{"%s":"location_check","predicate":{"block":{"blocks":["%s"]}}}'%(PREDICATE_TYPE_KEY,'","'.join(block_entry_A.blocks)))
 
 
 # ['1','2','3','4'] => 'int'
@@ -432,7 +458,7 @@ with zipfile.ZipFile(f'BlockState_{VERSION}.zip','w') as main_zip:
     with main_zip.open('LICENSE','w') as f:
         f.write(f'''MIT License
 
-Copyright (c) 2025 Triton365
+Copyright (c) 2026 Triton365
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
