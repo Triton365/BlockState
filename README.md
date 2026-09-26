@@ -41,6 +41,7 @@ In the case of a block that has no state at all, `properties` tag is omitted. An
 
 > [!TIP]
 > Optimization tip: Use blocks like `barrel` instead of entities for item replacement. They perform better for NBT access.
+
 <br><br><br>
 
 ## Precautions when applying to the falling_block
