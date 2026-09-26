@@ -31,13 +31,16 @@ kill 0-0-0-0-0
 ```
 The returned item's `minecraft:custom_data` component itself is the blockstate data, and usually structured like this:<br>
 ```
-"minecraft:custom_data":{Name:"minecraft:...",Properties:{...}}
+"minecraft:custom_data":{id:"minecraft:...",properties:{...}}
 ```
-Each states won't be omitted even though they have default values. For example, a grass block whose `snowy` state is `false` can omit the `snowy` state, but the returned item will always contain `snowy:"false"` in its `Properties`.<br>
-In the case of a block that has no state at all, `Properties` tag is omitted. And in the following situations, an item without any component can appear.
+Each states won't be omitted even though they have default values. For example, a grass block whose `snowy` state is `false` can omit the `snowy` state, but the returned item will always contain `snowy:"false"` in its `properties`.<br>
+In the case of a block that has no state at all, `properties` tag is omitted. And in the following situations, an item without any component can appear.
 - If the chunk of the current position is unloaded
 - If called from a position higher than the maximum height or lower than the minimum height
 - If the current block is from higher versions or mods
+
+> [!TIP]
+> Optimization tip: Use blocks like `barrel` instead of entities for item replacement. They perform better for NBT access.
 <br><br><br>
 
 ## Precautions when applying to the falling_block
