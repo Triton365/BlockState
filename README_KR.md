@@ -12,8 +12,7 @@
 <br><br>
 
 ## 다운로드
-- JE 26.3: <https://github.com/Triton365/BlockState/releases/download/v1.1.1/BlockState_26.3.zip>
-
+- JE 26.3: <https://github.com/Triton365/BlockState/releases/download/v1.1.2/BlockState_26.3.zip>
 
 이전 버전의 팩들은 [Releases](https://github.com/Triton365/BlockState/releases) 페이지에서 확인할 수 있습니다.
 
@@ -32,13 +31,17 @@ kill 0-0-0-0-0
 루트테이블이 반환하는 아이템의 `minecraft:custom_data` 컴포넌트 자체가 BlockState 데이터입니다.<br>
 보통은 다음과 같은 구조로 되어있습니다.<br>
 ```
-"minecraft:custom_data":{Name:"minecraft:...",Properties:{...}}
+"minecraft:custom_data":{id:"minecraft:...",properties:{...}}
 ```
-추가로, 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어 `snowy` 상태가 `false`인 잔디블록은 보통 `snowy` 상태를 생략할 수 있으나, 이 루트테이블에서 반환되는 아이템은 반드시 `Properties`에 `snowy:"false"`를 포함합니다.<br>
-상태가 완전히 없는 블록의 경우 `Properties` 태그가 생략되기도 하며, 아래와 같은 상황에서는 `tag`가 존재하지 않는 아이템이 나오기도 합니다.
+추가로, 개별적인 상태 하나하나는 기본값을 가지더라도 생략되지 않습니다. 예를 들어 `snowy` 상태가 `false`인 잔디블록은 보통 `snowy` 상태를 생략할 수 있으나, 이 루트테이블에서 반환되는 아이템은 반드시 `properties`에 `snowy:"false"`를 포함합니다.<br>
+상태가 완전히 없는 블록의 경우 `properties` 태그가 생략되기도 하며, 아래와 같은 상황에서는 `tag`가 존재하지 않는 아이템이 나오기도 합니다.
 - 주어진 위치의 청크가 언로드되어 있는 경우
 - 최대 높이 초과 또는 최저 높이 미만 영역에 있는 경우
 - 다른 버전 혹은 다른 모드에서 등장하는 블록인 경우
+
+> [!TIP]
+> 최적화 팁: 아이템을 replace 할 장소로 엔티티 대신 barrel과 같은 블록을 이용하세요. NBT 접근 속도에서 유리합니다.
+
 <br><br><br>
 
 ## 폴링 블록(falling_block)에 적용시 주의사항
