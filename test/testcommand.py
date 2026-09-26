@@ -93,14 +93,14 @@ with open('testcommand.mcfunction','w') as f:
                 fwrite('loot replace block 0 0 0 contents loot blockstate:get\n')
 
                 keysvalues = zip(keys,values)
-                fwrite('execute unless items block 0 0 0 contents cod[custom_data={Name:"minecraft:'+block+'",Properties:{')
+                fwrite('execute unless items block 0 0 0 contents cod[custom_data={id:"minecraft:'+block+'",properties:{')
                 fwrite(','.join(map(lambda x: x[0]+':'+mcstr(x[1]), keysvalues)))
                 fwrite('}}] run say ERR'+str(linenum)+'\n')
                 linenum += 3
         else:
             fwrite('setblock ~ ~ ~ '+block+' strict\n')
             fwrite('loot replace block 0 0 0 contents loot blockstate:get\n')
-            fwrite('execute unless items block 0 0 0 contents cod[custom_data={Name:"minecraft:'+block+'"}] run say ERR'+str(linenum)+'\n')
+            fwrite('execute unless items block 0 0 0 contents cod[custom_data={id:"minecraft:'+block+'"}] run say ERR'+str(linenum)+'\n')
             linenum += 3
     fwrite('say test end\n')
 

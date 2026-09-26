@@ -51,6 +51,9 @@ CONDITIONS_KEY = 'conditions'
 CONDITIONS_IS_ARRAY = True
 MODIFIER_KEY = 'functions'
 MODIFIER_ALLOW_SINGLE_OBJECT = False
+BLOCK_ID_KEY = 'Name'
+BLOCK_PROPERTIES_KEY = 'Properties'
+ALTERNATIVES_ENTRY_MODIFER_ALLOWED = False
 if version_compare(VERSION, '>=', '26.3'):
     PREDICATE_TYPE_KEY = 'type'
     ITEM_MODIFIER_TYPE_KEY = 'type'
@@ -58,6 +61,9 @@ if version_compare(VERSION, '>=', '26.3'):
     CONDITIONS_IS_ARRAY = False
     MODIFIER_KEY = 'modifier'
     MODIFIER_ALLOW_SINGLE_OBJECT = True
+    BLOCK_ID_KEY = 'id'
+    BLOCK_PROPERTIES_KEY = 'properties'
+    ALTERNATIVES_ENTRY_MODIFER_ALLOWED = True
 
 
 
@@ -239,6 +245,10 @@ class Entry:
                 child.write_to_file(fwrite)
             fwrite(']')
         fwrite('}')
+    def as_main_block_entry(self,block):
+        self.exception = False
+        self.blocks = [block]
+        self.functions.append('{"%s":"%s","tag":"{%s:\'minecraft:%s\'}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,BLOCK_ID_KEY,block))
 
 
 # 엔트리, 그런데 정수 상태를 이진 탐색하는 children 엔트리를 자동 생성하는
@@ -247,7 +257,7 @@ class IntStateCheckEntry(Entry):
         super().__init__()
         if len(values) == 1:
             self.type = 'item'
-            self.functions.append('{"%s":"%s","tag":"{Properties:{%s:\'%d\'}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,key,values[0]))
+            self.functions.append('{"%s":"%s","tag":"{%s:{%s:\'%d\'}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,BLOCK_PROPERTIES_KEY,key,values[0]))
         elif len(values) >= 2:
             self.type = 'alternatives' # alternatives 기반 2진 탐색
             mid = (len(values)+1)//2
@@ -276,10 +286,10 @@ class StrStateCheckEntry(Entry):
             if value in ('true','false'):
                 if STRINGFY_STATE_VALUES: self.children[-1].conditions = ['{"%s":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(PREDICATE_TYPE_KEY,key,value)]
                 else:                     self.children[-1].conditions = ['{"%s":"location_check","predicate":{"block":{"state":{"%s":%s}}}}'%(PREDICATE_TYPE_KEY,key,value)]
-                self.children[-1].functions  = ['{"%s":"%s","tag":"{Properties:{%s:\'%s\'}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,key,value)]
+                self.children[-1].functions  = ['{"%s":"%s","tag":"{%s:{%s:\'%s\'}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,BLOCK_PROPERTIES_KEY,key,value)]
             else:
                 self.children[-1].conditions = ['{"%s":"location_check","predicate":{"block":{"state":{"%s":"%s"}}}}'%(PREDICATE_TYPE_KEY,key,value)]
-                self.children[-1].functions  = ['{"%s":"%s","tag":"{Properties:{%s:%s}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,key,value)]
+                self.children[-1].functions  = ['{"%s":"%s","tag":"{%s:{%s:%s}}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,BLOCK_PROPERTIES_KEY,key,value)]
         self.children[-1].conditions.clear()
 
 # 블록 엔트리, 그런데 현 위치의 블록이 self.block 리스트에 있는 경우
@@ -288,9 +298,7 @@ class SimpleBlockEntry(Entry):
         super().__init__()
         self.type = loot_type
         self.name = name
-        self.exception = False
-        self.blocks = [block]
-        self.functions.append('{"%s":"%s","tag":"{Name:\'minecraft:%s\'}"}'%(ITEM_MODIFIER_TYPE_KEY,CUSTOM_DATA_ITEM_MODIFIER,block))
+        self.as_main_block_entry(block)
 
 # 블록 엔트리, 그런데 현 위치의 블록이 예외인 경우
 class ExceptionBlockEntry(Entry):
@@ -313,7 +321,7 @@ class CombinedBlockEntry(Entry):
         # 예외 엔트리가 첫번째 children이 아닌 두번째 children에 오도록 설계
         if block_entry_A.exception:
             block_entry_A,block_entry_B = block_entry_B,block_entry_A
-        if block_entry_B.type == 'alternatives':
+        if block_entry_B.type == 'alternatives' and len(block_entry_B.functions) == 0:
             self.children = [block_entry_A] + block_entry_B.children
         else:
             self.children = [block_entry_A,block_entry_B]
@@ -399,7 +407,11 @@ def mainf(block_group_list,state_group_list,name=None):
         index = max_list[0]
         if len(block_group_list[index]) == 1 and len(state_group_list[index]) == 1:
             print('inlined :', block_group_list[index], state_group_list[index])
-            main_entries.append(SimpleBlockEntry(block_group_list[index][0],'loot_table',e))
+            if ALTERNATIVES_ENTRY_MODIFER_ALLOWED:
+                e.as_main_block_entry(block_group_list[index][0])
+                main_entries.append(e)
+            else:
+                main_entries.append(SimpleBlockEntry(block_group_list[index][0],'loot_table',e))
             del block_group_list[index]
             del state_group_list[index]
             mainf(block_group_list,state_group_list,name)
